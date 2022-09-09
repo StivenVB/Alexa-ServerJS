@@ -517,37 +517,37 @@ function getRecurringOrders(intent, session, callback) {
 
     sessionAttributes = handleSessionAttributes(sessionAttributes, 'BusinessPartner', BusinessPartnerCC);
     console.log("ID: " + BusinessPartnerCC);
-    if (BusinessPartnerCC == null) {
+    /*if (BusinessPartnerCC == null) {
         speechOutput = "Cual es tu numero de identificacion?";
         repromptText = "Cual es tu numero de identificacion?";
-    } else {
-        TELEGRAM.GetRecurringOrders(BusinessPartnerCC, function(err, response) {
-            if (err) {
-                console.error(err)
-                speechOutput = "Hubo un problema en la comunicación con Telegram. Porfavor intentelo de nuevo" + "intent json" + JSON.stringify(intent) + " session " + JSON.stringify(session)
+    } else {*/
+    TELEGRAM.GetRecurringOrders("10047", function(err, response) {
+        if (err) {
+            console.error(err)
+            speechOutput = "Hubo un problema en la comunicación con Telegram. Porfavor intentelo de nuevo" + "intent json" + JSON.stringify(intent) + " session " + JSON.stringify(session)
+        } else {
+            response = response.value
+            console.log(response);
+            if (response.length == 0) {
+                speechOutput = "Lo siento, pero no hay pedidos recurrentes";
             } else {
-                response = response.value
+                speechOutput = "Sus pedidos recurrentes son:";
+                for (var i = 0; i < response.length; i++) {
+                    speechOutput = response[i].U_DescPedido + ". ";
 
-                if (response.length == 0) {
-                    speechOutput = "Lo siento, pero no hay pedidos recurrentes";
-                } else {
-                    speechOutput = "Sus pedidos recurrentes son:";
-                    for (var i = 0; i < response.length; i++) {
-                        speechOutput = response[i].U_DescPedido + ". ";
-
-                    }
                 }
             }
+        }
 
-            shouldEndSession = true;
+        shouldEndSession = true;
 
-            // callback with result
-            callback(sessionAttributes,
-                buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession)
-            );
-        });
-        return;
-    }
+        // callback with result
+        callback(sessionAttributes,
+            buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession)
+        );
+    });
+    return;
+    //}
 
     sessionAttributes = handleSessionAttributes(sessionAttributes, 'PreviousIntent', intent.name);
 
