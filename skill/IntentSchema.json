@@ -220,6 +220,22 @@
                         "confirmationRequired": false,
                         "elicitationRequired": false,
                         "prompts": {}
+                    },
+                    {
+                        "name": "Order",
+                        "confirmationRequired": false,
+                        "prompts": {},
+                        "slots": [{
+                            "name": "BusinessPartners",
+                            "type": "AMAZON.NUMBER",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {},
+                            "validations": [{
+                                "type": "hasEntityResolutionMatch",
+                                "prompt": "Slot.Validation.261777776730.36457673745.187009367255"
+                            }]
+                        }]
                     }
                 ]
             }],
