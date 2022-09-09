@@ -49,7 +49,7 @@ async function postRecurringOrders() {
 };
 
 module.exports = {
-    GetRecurringOrders: function(year, quarter, callback) {
-        return (getRecurringOrders(year, quarter, callback))
+    GetRecurringOrders: function(identification, callback) {
+        return (getRecurringOrders(identification, callback))
     }
 }
