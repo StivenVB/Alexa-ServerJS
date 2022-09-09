@@ -6,8 +6,8 @@
 //begin of wrapper for https endpoint of b1Assistant.js
 //You could deploy this alexa nodejs skill locally or on cloud foundry
 const express = require('express');
-var fs = require('fs');
-var https = require('https');
+//var fs = require('fs');
+//var https = require('https');
 const bodyParser = require('body-parser');
 const b1Assistant = require('./modules/b1Assistant');
 var orders = require('./modules/Telegram');
@@ -15,12 +15,12 @@ var orders = require('./modules/Telegram');
 const app = express();
 const PORT = process.env.PORT || 8089;
 
-https.createServer({
+/*https.createServer({
     cert: fs.readFileSync('server.crt'),
     key: fs.readFileSync('server.key')
 }, app).listen(PORT, function() {
     console.log('B1AssistantAlexa https App listening to port ...' + PORT);
-});
+});*/
 
 app.use(({
     method,
@@ -98,7 +98,7 @@ app.post('/postOrder', function(req, res, next) {
 })
 */
 
-/*app.listen(PORT, function() {
+app.listen(PORT, function() {
     console.log('B1AssistantAlexa App listening to port ...' + PORT);
-});*/
+});
 //end of wrapper for cloud foundry
