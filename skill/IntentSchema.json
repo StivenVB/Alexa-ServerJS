@@ -64,7 +64,7 @@
                     ]
                 },
                 {
-                    "name": "BusinessPartner",
+                    "name": "Order",
                     "slots": [{
                         "name": "BusinessPartners",
                         "type": "AMAZON.NUMBER"
