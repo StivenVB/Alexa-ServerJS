@@ -103,7 +103,7 @@ function onIntent(intentRequest, session, callback) {
             getWelcomeResponse(callback);
             break;
 
-        case "Pedido":
+        case "pedido recurrente":
             getRecurringOrders(intent, session, callback);
             break;
 
