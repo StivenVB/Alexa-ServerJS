@@ -1,0 +1,15 @@
+---
+applications:
+- name: consensussas
+  memory: 64m
+  instances: 1
+  buildpack: https://github.com/cloudfoundry/nodejs-buildpack.git
+  env:
+    "B1_HOST" : "https://servicesunit2.abilitysap.com.co"
+    "B1_PORT" : "50000"
+    "B1_REPORTAPI" : "/b1s/v1/sml.svc"
+    "B1_DATAAPI" : "/b1s/v1"
+    "B1_USER": "ABILITYSAP\\css-egranada"
+    "B1_PASS": "T*o6HoBibo6runUF+lsW"
+    "B1_COMP": "CONSENSUS_SAS"
+    "DEFAULT_BP": "CL00000124"
