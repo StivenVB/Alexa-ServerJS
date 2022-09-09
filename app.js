@@ -10,7 +10,7 @@ var fs = require('fs');
 var https = require('https');
 const bodyParser = require('body-parser');
 const b1Assistant = require('./modules/b1Assistant');
-var orders = require('../ServicioAlexa/modules/Telegram');
+var orders = require('../Alexa-ServerJS/modules/Telegram');
 
 const app = express();
 const PORT = process.env.PORT || 8089;
