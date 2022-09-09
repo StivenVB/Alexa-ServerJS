@@ -103,7 +103,7 @@ function onIntent(intentRequest, session, callback) {
             getWelcomeResponse(callback);
             break;
 
-        case "pedido recurrente":
+        case "MakeOrder":
             getRecurringOrders(intent, session, callback);
             break;
 
@@ -513,9 +513,9 @@ function getRecurringOrders(intent, session, callback) {
     var shouldEndSession = false;
     var speechOutput = "";
     console.log("entre");
-    var BusinessPartnerCC = extractValue('BusinessPartners', intent, session);
+    var BusinessPartnerCC = extractValue('BusinessPartner', intent, session);
 
-    sessionAttributes = handleSessionAttributes(sessionAttributes, 'BusinessPartners', BusinessPartnerCC);
+    sessionAttributes = handleSessionAttributes(sessionAttributes, 'BusinessPartner', BusinessPartnerCC);
 
     if (BusinessPartnerCC == null) {
         speechOutput = "Cual es tu numero de identificacion?";

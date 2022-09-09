@@ -64,9 +64,9 @@
                     ]
                 },
                 {
-                    "name": "Order",
+                    "name": "MakeOrder",
                     "slots": [{
-                        "name": "BusinessPartners",
+                        "name": "BusinessPartner",
                         "type": "AMAZON.NUMBER"
                     }],
                     "samples": [
@@ -211,36 +211,12 @@
         },
         "dialog": {
             "intents": [{
-                    "name": "SalesInfo",
-                    "confirmationRequired": false,
-                    "prompts": {},
-                    "slots": [{
-                            "name": "SalesQuarter",
-                            "type": "SAP_QUARTERS",
-                            "confirmationRequired": false,
-                            "elicitationRequired": false,
-                            "prompts": {},
-                            "validations": [{
-                                "type": "hasEntityResolutionMatch",
-                                "prompt": "Slot.Validation.261777776730.36457673745.187009367255"
-                            }]
-                        },
-                        {
-                            "name": "SalesYear",
-                            "type": "AMAZON.DATE",
-                            "confirmationRequired": false,
-                            "elicitationRequired": false,
-                            "prompts": {}
-                        }
-                    ]
-                },
-                {
-                    "name": "Order",
-                    "confirmationRequired": false,
-                    "prompts": {},
-                    "slots": [{
-                        "name": "BusinessPartners",
-                        "type": "AMAZON.NUMBER",
+                "name": "SalesInfo",
+                "confirmationRequired": false,
+                "prompts": {},
+                "slots": [{
+                        "name": "SalesQuarter",
+                        "type": "SAP_QUARTERS",
                         "confirmationRequired": false,
                         "elicitationRequired": false,
                         "prompts": {},
@@ -248,9 +224,16 @@
                             "type": "hasEntityResolutionMatch",
                             "prompt": "Slot.Validation.261777776730.36457673745.187009367255"
                         }]
-                    }]
-                }
-            ],
+                    },
+                    {
+                        "name": "SalesYear",
+                        "type": "AMAZON.DATE",
+                        "confirmationRequired": false,
+                        "elicitationRequired": false,
+                        "prompts": {}
+                    }
+                ]
+            }],
             "delegationStrategy": "ALWAYS"
         },
         "prompts": [{
