@@ -181,8 +181,8 @@ function getSalesInfo(intent, session, callback) {
     sessionAttributes = handleSessionAttributes(sessionAttributes, 'SalesYear', SalesYear);
 
     if (SalesQuarter == null) {
-        speechOutput = "De que trimestre??";
-        repromptText = "De que trimestre??";
+        speechOutput = "De que trimestre???";
+        repromptText = "De que trimestre???";
     } else if (SalesYear == null) {
         speechOutput = "De que año?";
         repromptText = "De que año";
