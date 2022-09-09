@@ -516,7 +516,7 @@ function getRecurringOrders(intent, session, callback) {
     var BusinessPartnerCC = extractValue('BusinessPartner', intent, session);
 
     sessionAttributes = handleSessionAttributes(sessionAttributes, 'BusinessPartner', BusinessPartnerCC);
-
+    console.log(BusinessPartnerCC);
     if (BusinessPartnerCC == null) {
         speechOutput = "Cual es tu numero de identificacion?";
         repromptText = "Cual es tu numero de identificacion?";
