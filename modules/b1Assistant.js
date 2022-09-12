@@ -534,8 +534,8 @@ function getRecurringOrders(intent, session, callback) {
                     speechOutput = "Lo siento, pero no hay pedidos recurrentes";
                 } else {
                     speechOutput = "Sus pedidos recurrentes son:";
-                    for (var i = 0; i < response.length; i++) {
-                        speechOutput = response[i].U_DescPedido + ". ";
+                    for (var i = 0; i < response.data.length; i++) {
+                        speechOutput = response.data[i].U_DescPedido + ". ";
 
                     }
                 }
