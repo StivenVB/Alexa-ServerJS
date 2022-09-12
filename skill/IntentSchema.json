@@ -67,11 +67,12 @@
                     "name": "MakeOrder",
                     "slots": [{
                         "name": "BusinessPartner",
-                        "type": "AMAZON.DATE"
+                        "type": "AMAZON.NUMBER"
                     }],
                     "samples": [
                         "pedido recurrente",
-                        "pedidos recurrentes"
+                        "pedidos recurrentes",
+                        "{BusinessPartner}"
                     ]
                 },
                 {
