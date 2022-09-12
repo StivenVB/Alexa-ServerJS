@@ -523,7 +523,7 @@ function getRecurringOrders(intent, session, callback) {
         speechOutput = "Cual es tu numero de identificacion?";
         repromptText = "Cual es tu numero de identificacion?";
     } else {
-        TELEGRAM.GetRecurringOrders("10047", function(err, response) {
+        TELEGRAM.GetRecurringOrders(BusinessPartner, function(err, response) {
             if (err) {
                 console.error(err)
                 speechOutput = "Hubo un problema en la comunicación con Telegram. Porfavor intentelo de nuevo" + err.message
