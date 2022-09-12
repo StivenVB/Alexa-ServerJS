@@ -513,11 +513,11 @@ function getRecurringOrders(intent, session, callback) {
     var shouldEndSession = false;
     var speechOutput = "";
     console.log("entre");
-    var BusinessPartnerCC = extractValue('BusinessPartner', intent, session);
+    var BusinessPartner = extractValue('BusinessPartner', intent, session);
 
-    sessionAttributes = handleSessionAttributes(sessionAttributes, 'BusinessPartner', BusinessPartnerCC);
-    console.log("ID: " + BusinessPartnerCC);
-    if (BusinessPartnerCC == null) {
+    sessionAttributes = handleSessionAttributes(sessionAttributes, 'BusinessPartner', BusinessPartner);
+    console.log("ID: " + BusinessPartner);
+    if (BusinessPartner == null) {
         speechOutput = "Cual es tu numero de identificacion?";
         repromptText = "Cual es tu numero de identificacion?";
     } else {
