@@ -14,7 +14,7 @@ async function getRecurringOrders(identification, callback) {
 
         let orderResponse = await REQUEST_PROMISE(orders);
         let body = JSON.parse(orderResponse);
-        console - log(body.data.length)
+        console.log("length: " + body.data.length)
         callback(null, body);
         //return { status: 200, estado: true, mensaje: 'Exitoso', datos: body };
 
