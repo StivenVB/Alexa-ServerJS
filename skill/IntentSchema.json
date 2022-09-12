@@ -72,7 +72,7 @@
                     "samples": [
                         "pedido recurrente",
                         "pedidos recurrentes",
-                        "{BusinessPartner}"
+                        "{BusinessPartner} confirmar"
                     ]
                 },
                 {
