@@ -67,7 +67,7 @@
                     "name": "MakeOrder",
                     "slots": [{
                         "name": "BusinessPartner",
-                        "type": "AMAZON.NUMBER"
+                        "type": "AMAZON.DATE"
                     }],
                     "samples": [
                         "pedido recurrente",
@@ -240,7 +240,7 @@
                     "prompts": {},
                     "slots": [{
                         "name": "BusinessPartner",
-                        "type": "AMAZON.NUMBER",
+                        "type": "AMAZON.DATE",
                         "confirmationRequired": false,
                         "elicitationRequired": false,
                         "prompts": {}
