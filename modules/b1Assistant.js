@@ -512,6 +512,7 @@ function getRecurringOrders(intent, session, callback) {
     var sessionAttributes = {};
     var shouldEndSession = false;
     var speechOutput = "";
+    let sendJSON = "";
 
     var BusinessPartner = extractValue('BusinessPartner', intent, session);
     console.log("BusinessPartner Extraido " + BusinessPartner);
@@ -523,7 +524,10 @@ function getRecurringOrders(intent, session, callback) {
         speechOutput = "Cual es tu numero de identificacion?";
         repromptText = "Cual es tu numero de identificacion?";
     } else {
-        TELEGRAM.GetRecurringOrders(BusinessPartner, function(err, response) {
+        sendJSON = {
+            "idNumber": BusinessPartner
+        }
+        TELEGRAM.GetRecurringOrders(sendJSON, function(err, response) {
             if (err) {
                 console.error(err)
                 speechOutput = "Hubo un problema en la comunicación con Telegram. Porfavor intentelo de nuevo" + err.message
