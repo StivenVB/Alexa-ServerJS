@@ -528,6 +528,7 @@ function getRecurringOrders(intent, session, callback) {
                 console.error(err)
                 speechOutput = "Hubo un problema en la comunicación con Telegram. Porfavor intentelo de nuevo" + err.message
             } else {
+                console.log("data: " + response);
                 if (response.data.length == 0) {
                     speechOutput = "Lo siento, pero no hay pedidos recurrentes";
                 } else {
