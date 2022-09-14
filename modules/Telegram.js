@@ -13,7 +13,8 @@ async function getRecurringOrders(identification, callback) {
         };
 
         let orderResponse = await REQUEST_PROMISE(orders);
-        console.log("Telegram: " + orderResponse.data[0].U_DescPedido);
+        let body = orderResponse;
+        console.log("Telegram: " + body);
         callback(null, orderResponse);
         //return { status: 200, estado: true, mensaje: 'Exitoso', datos: body };
 
