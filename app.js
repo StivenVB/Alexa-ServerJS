@@ -59,7 +59,9 @@ app.get('/', function(req, res) {
 });
 
 /*app.get('/test', function(req, res, next) {
-    let cc = "10047";
+    let cc = {
+        "idNumber": "802023637"
+    };
     orders.getRecurringOrders(cc)
         .then(function(data) {
             var status = data.status
@@ -96,8 +98,8 @@ app.post('/postOrder', function(req, res, next) {
                 .json(error)
         })
 })
-*/
 
+*/
 app.listen(PORT, function() {
     console.log('B1AssistantAlexa App listening to port ...' + PORT);
 });

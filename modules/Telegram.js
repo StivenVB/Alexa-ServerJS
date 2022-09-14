@@ -6,22 +6,26 @@ const REQUEST_PROMISE = require('request-promise')
 async function getRecurringOrders(identification, callback) {
 
     try {
-
+        console.log(TELEGRAM_CONFIG.URL);
         let orders = {
             method: 'GET',
-            url: TELEGRAM_CONFIG.URL + 'recurringOrders/' + identification
+            url: TELEGRAM_CONFIG.URL + 'orders',
+            body: identification,
+            json: true
         };
 
         let orderResponse = await REQUEST_PROMISE(orders);
-        let body = orderResponse;
-        console.log("Telegram: " + body.data.length);
+        //console.log("length" + orderResponse.data.length);
+        //let body = JSON.parse(orderResponse);
+        //console.log("Telegram: " + body.data.length);
         callback(null, orderResponse);
-        //return { status: 200, estado: true, mensaje: 'Exitoso', datos: body };
+
+        //return { status: 200, estado: true, mensaje: 'Exitoso', datos: orderResponse };
 
     } catch (error) {
         console.log(error.message)
         callback(error);
-        // return { status: 500, estado: false, mensaje: error.message, datos: null }
+        //return { status: 500, estado: false, mensaje: error.message, datos: null }
 
     }
 };
@@ -49,7 +53,8 @@ async function postRecurringOrders() {
 };
 
 module.exports = {
-    GetRecurringOrders: function(identification, callback) {
+    /*GetRecurringOrders: function(identification, callback) {
         return (getRecurringOrders(identification, callback))
-    }
+    }*/
+    getRecurringOrders
 }
