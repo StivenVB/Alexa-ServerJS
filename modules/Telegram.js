@@ -15,16 +15,14 @@ async function getRecurringOrders(identification, callback) {
         };
 
         let orderResponse = await REQUEST_PROMISE(orders);
-        console.log(orderResponse.statusCode);
-        callback(null, orderResponse);
 
-        //return { status: 200, estado: true, mensaje: 'Exitoso', datos: orderResponse };
+        if (!error && orderResponse.status) {
+            callback(null, orderResponse);
+        }
 
     } catch (error) {
         console.log(error.message)
         callback(error);
-        //return { status: 500, estado: false, mensaje: error.message, datos: null }
-
     }
 };
 
