@@ -539,10 +539,8 @@ function getRecurringOrders(intent, session, callback) {
                     for (var i = 0; i < response.data.length; i++) {
                         orders += response.data[i].U_DescPedido + ", " + "\n";
                     }
-
-                    speechOutput = "Sus pedidos recurrentes son:" + "\n" + orders + ". ";
-
-
+                    orders = orders.substring(0, orders.length - 1);
+                    speechOutput = "Sus pedidos recurrentes son:" + "\n" + orders;
                 }
             }
 
