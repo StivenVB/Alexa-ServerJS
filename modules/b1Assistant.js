@@ -517,7 +517,7 @@ function getRecurringOrders(intent, session, callback) {
     sendJSON = "",
         orders = "",
         validate = false,
-        order = false,
+        orderData = false,
         index = 0,
         orderResponse = "";
 
@@ -565,17 +565,17 @@ function getRecurringOrders(intent, session, callback) {
                 repromptText = "¿Cuál desea escoger?";
             } else {
 
-                while (!order && index < orderResponse.data.length) {
+                while (!orderData && index < orderResponse.data.length) {
                     if (order.replace(/ /g, "").toUpperCase() === orderResponse.data[index].U_DescPedido.replace(/ /g, "").toUpperCase()) {
-                        order = orderResponse.data[index].U_DescPedido;
+                        orderData = orderResponse.data[index].U_DescPedido;
                     }
                 }
 
-                if (!order) {
+                if (!orderData) {
                     speechOutput = "Lo siento, el pedido recurrente: " + order + " no existe";
                 } else {
 
-                    sendJSON = bodyBuildPost(businessPartner, order);
+                    sendJSON = bodyBuildPost(businessPartner, orderData);
 
                     TELEGRAM.PostRecurringOrders(sendJSON, function(err, response) {
                         if (err) {
