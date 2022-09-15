@@ -570,7 +570,7 @@ function getRecurringOrders(intent, session, callback) {
                         }
 
                         if (!orderData) {
-                            speechOutput = "Lo siento, el pedido recurrente: " + order + " no existe";
+                            speechOutput = "Lo siento, el pedido recurrente no existe";
                         } else {
 
                             sendJSON = bodyBuildPost(businessPartner, orderData);
