@@ -515,7 +515,10 @@ function getRecurringOrders(intent, session, callback) {
     shouldEndSession = false;
     speechOutput = "";
     sendJSON = "",
-        orders = "";
+        orders = "",
+        validate = false,
+        order = false,
+        index = 0;;
 
     let businessPartner = extractValue('BusinessPartner', intent, session);
     console.log("BusinessPartner Extraido " + businessPartner);
@@ -541,10 +544,12 @@ function getRecurringOrders(intent, session, callback) {
                     for (var i = 0; i < response.data.length; i++) {
                         orders += response.data[i].U_DescPedido + "," + "\n";
                     }
+                    validate = true;
                     orders = orders.substring(0, orders.length - 2);
                     speechOutput = "Tus pedidos recurrentes son:" + "\n" + orders + ".";
 
                     //postOrderTelegram(intent, session, callback, response, businessPartner);
+
                 }
 
             }
@@ -556,6 +561,47 @@ function getRecurringOrders(intent, session, callback) {
                 buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession)
             );
         });
+        if (validate) {
+            let order = extractValue('Order', intent, session);
+            sessionAttributes = handleSessionAttributes(sessionAttributes, 'Order', order);
+
+            if (order == null) {
+                speechOutput = "¿Cuál desea escoger?";
+                repromptText = "¿Cuál desea escoger?";
+            } else {
+
+                while (!order && index < orderResponse.data.length) {
+                    if (order.replace(/ /g, "").toUpperCase() === orderResponse.data[index].U_DescPedido.replace(/ /g, "").toUpperCase()) {
+                        order = orderResponse.data[index].U_DescPedido;
+                    }
+                }
+
+                if (!order) {
+                    speechOutput = "Lo siento, el pedido recurrente: " + order + " no existe";
+                } else {
+
+                    sendJSON = bodyBuildPost(businessPartner, order);
+
+                    TELEGRAM.PostRecurringOrders(sendJSON, function(err, response) {
+                        if (err) {
+                            console.error(err)
+                            speechOutput = "Hubo un problema en la comunicación con Telegram. Porfavor intentelo de nuevo " + err.message
+                        } else {
+
+                            speechOutput = response.message;
+
+                        }
+
+                        shouldEndSession = true;
+
+                        // callback with result
+                        callback(sessionAttributes,
+                            buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession)
+                        );
+                    });
+                }
+            }
+        }
         return;
     }
 
