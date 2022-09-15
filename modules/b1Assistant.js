@@ -554,8 +554,42 @@ function getRecurringOrders(intent, session, callback) {
 
                 }
 
-            }
+                if (validate) {
+                    let order = extractValue('Order', intent, session);
+                    sessionAttributes = handleSessionAttributes(sessionAttributes, 'Order', order);
 
+                    if (order == null) {
+                        speechOutput = "¿Cuál desea escoger?";
+                        repromptText = "¿Cuál desea escoger?";
+                    } else {
+
+                        while (!orderData && index < orderResponse.data.length) {
+                            if (order.replace(/ /g, "").toUpperCase() === orderResponse.data[index].U_DescPedido.replace(/ /g, "").toUpperCase()) {
+                                orderData = orderResponse.data[index].U_DescPedido;
+                            }
+                        }
+
+                        if (!orderData) {
+                            speechOutput = "Lo siento, el pedido recurrente: " + order + " no existe";
+                        } else {
+
+                            sendJSON = bodyBuildPost(businessPartner, orderData);
+
+                            TELEGRAM.PostRecurringOrders(sendJSON, function(err, response) {
+                                if (err) {
+                                    console.error(err)
+                                    speechOutput = "Hubo un problema en la comunicación con Telegram. Porfavor intentelo de nuevo " + err.message
+                                } else {
+
+                                    speechOutput = response.message;
+
+                                }
+                            });
+                        }
+                    }
+                }
+
+            }
 
             shouldEndSession = true;
 
