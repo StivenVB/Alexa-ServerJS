@@ -66,9 +66,14 @@
                 {
                     "name": "MakeOrder",
                     "slots": [{
-                        "name": "BusinessPartner",
-                        "type": "AMAZON.NUMBER"
-                    }],
+                            "name": "BusinessPartner",
+                            "type": "AMAZON.NUMBER"
+                        },
+                        {
+                            "name": "Order",
+                            "type": "AMAZON.Language"
+                        }
+                    ],
                     "samples": [
                         "pedido recurrente",
                         "pedidos recurrentes",
