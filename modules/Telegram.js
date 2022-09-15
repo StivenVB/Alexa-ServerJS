@@ -15,6 +15,7 @@ async function getRecurringOrders(identification, callback) {
         };
 
         let orderResponse = await REQUEST_PROMISE(orders);
+        console.log(orderResponse.status);
         callback(null, orderResponse);
 
         //return { status: 200, estado: true, mensaje: 'Exitoso', datos: orderResponse };
