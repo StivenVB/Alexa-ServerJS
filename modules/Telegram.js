@@ -35,7 +35,7 @@ async function postRecurringOrders(sendOrder, callback) {
             json: true
         };
 
-        let orderResponse = await REQUEST_PROMISE(orders);
+        let orderResponse = await REQUEST_PROMISE(order);
 
         callback(null, orderResponse);
 

@@ -544,7 +544,7 @@ function getRecurringOrders(intent, session, callback) {
                     orders = orders.substring(0, orders.length - 2);
                     speechOutput = "Tus pedidos recurrentes son:" + "\n" + orders + ".";
 
-                    postOrderTelegram(intent, session, callback, response, businessPartner);
+                    //postOrderTelegram(intent, session, callback, response, businessPartner);
                 }
 
             }
