@@ -553,13 +553,6 @@ function getRecurringOrders(intent, session, callback) {
                 }
 
             }
-
-            shouldEndSession = true;
-
-            // callback with result
-            callback(sessionAttributes,
-                buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession)
-            );
         });
         if (validate) {
             let order = extractValue('Order', intent, session);
@@ -599,6 +592,14 @@ function getRecurringOrders(intent, session, callback) {
                             buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession)
                         );
                     });
+
+
+                    shouldEndSession = true;
+
+                    // callback with result
+                    callback(sessionAttributes,
+                        buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession)
+                    );
                 }
             }
         }
