@@ -512,7 +512,8 @@ function getRecurringOrders(intent, session, callback) {
     var sessionAttributes = {};
     var shouldEndSession = false;
     var speechOutput = "";
-    let sendJSON = "";
+    let sendJSON = "",
+        orders = "";
 
     var BusinessPartner = extractValue('BusinessPartner', intent, session);
     console.log("BusinessPartner Extraido " + BusinessPartner);
@@ -536,8 +537,12 @@ function getRecurringOrders(intent, session, callback) {
                     speechOutput = "Lo siento, pero no hay pedidos recurrentes";
                 } else {
                     for (var i = 0; i < response.data.length; i++) {
-                        speechOutput = "Sus pedidos recurrentes son " + response.data[i].U_DescPedido + ". ";
+                        orders += response.data[i].U_DescPedido + ", " + "\n";
                     }
+
+                    speechOutput = "Sus pedidos recurrentes son:" + "\n" + orders + ". ";
+
+
                 }
             }
 
