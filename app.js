@@ -58,7 +58,7 @@ app.get('/', function(req, res) {
 
 });
 
-/*app.get('/test', function(req, res, next) {
+app.get('/test', function(req, res, next) {
     let cc = {
         "idNumber": "802023637"
     };
@@ -81,7 +81,11 @@ app.get('/', function(req, res) {
 })
 
 app.post('/postOrder', function(req, res, next) {
-    orders.postRecurringOrders()
+    let d = {
+        "idNumber": "1007232211",
+        "descPedido": "Pedido gatuno"
+    };
+    orders.postRecurringOrders(d)
         .then(function(data) {
             var status = data.status
             delete data['status']
@@ -99,7 +103,7 @@ app.post('/postOrder', function(req, res, next) {
         })
 })
 
-*/
+
 app.listen(PORT, function() {
     console.log('B1AssistantAlexa App listening to port ...' + PORT);
 });

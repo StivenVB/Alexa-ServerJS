@@ -3,6 +3,7 @@
  */
 
 // Module to perform Service Layer Calls
+const { post } = require("request");
 const B1SL = require("./Azure_b1ServiceLayer")
 
 const TELEGRAM = require("./Telegram");
@@ -526,7 +527,7 @@ function getRecurringOrders(intent, session, callback) {
         repromptText = "¿Cuál es tu número de identificación?";
     } else {
 
-        sendJSON = bodyBuilGet(businessPartner);
+        sendJSON = bodyBuildGet(businessPartner);
 
         TELEGRAM.GetRecurringOrders(sendJSON, function(err, response) {
             if (err) {
@@ -541,8 +542,9 @@ function getRecurringOrders(intent, session, callback) {
                         orders += response.data[i].U_DescPedido + "," + "\n";
                     }
                     orders = orders.substring(0, orders.length - 2);
-                    speechOutput = "Tus pedidos recurrentes son:" + "\n" + orders + "." + "\n" +
-                        "¿Cuál desea escoger?";
+                    speechOutput = "Tus pedidos recurrentes son:" + "\n" + orders + ".";
+
+                    postOrderTelegram(intent, session, callback, response, businessPartner);
                 }
 
             }
@@ -569,10 +571,85 @@ function getRecurringOrders(intent, session, callback) {
     );
 }
 
-function bodyBuilGet(businessPartner) {
+
+function postOrderTelegram(intent, session, callback, orderResponse, businessPartner) {
+
+    let repromptText = null;
+    sessionAttributes = {};
+    shouldEndSession = false;
+    speechOutput = "",
+        order = false,
+        index = 0;
+
+    let order = extractValue('Order', intent, session);
+    console.log("BusinessPartner Extraido " + businessPartner);
+
+    sessionAttributes = handleSessionAttributes(sessionAttributes, 'Order', order);
+
+    if (businessPartner == null) {
+        speechOutput = "¿Cuál desea escoger?";
+        repromptText = "¿Cuál desea escoger?";
+    } else {
+
+        while (!order && index < orderResponse.data.length) {
+            if (order.replace(/ /g, "").toUpperCase() === orderResponse.data[index].U_DescPedido.replace(/ /g, "").toUpperCase()) {
+                order = orderResponse.data[index].U_DescPedido;
+            }
+        }
+
+        if (!order) {
+            speechOutput = "Lo siento, el pedido recurrente: " + order + " no existe";
+        } else {
+
+            sendJSON = bodyBuildPost(businessPartner, order);
+
+            TELEGRAM.PostRecurringOrders(sendJSON, function(err, response) {
+                if (err) {
+                    console.error(err)
+                    speechOutput = "Hubo un problema en la comunicación con Telegram. Porfavor intentelo de nuevo " + err.message
+                } else {
+
+                    speechOutput = response.message;
+
+                }
+
+                shouldEndSession = true;
+
+                // callback with result
+                callback(sessionAttributes,
+                    buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession)
+                );
+            });
+        }
+        return;
+    }
+
+    sessionAttributes = handleSessionAttributes(sessionAttributes, 'PreviousIntent', intent.name);
+
+
+    // Call back while there still questions to ask
+    callback(sessionAttributes,
+        buildSpeechletResponse(
+            intent.name, speechOutput,
+            repromptText, shouldEndSession
+        )
+    );
+}
+
+function bodyBuildGet(businessPartner) {
 
     let body = {
         idNumber: businessPartner
+    };
+
+    return body;
+}
+
+function bodyBuildPost(businessPartner, order) {
+
+    let body = {
+        idNumber: businessPartner,
+        descPedido: order
     };
 
     return body;

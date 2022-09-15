@@ -72,7 +72,8 @@
                     "samples": [
                         "recurring orders",
                         "recurring order",
-                        "{BusinessPartner}"
+                        "{BusinessPartner}",
+                        "{Order}"
                     ]
                 },
                 {

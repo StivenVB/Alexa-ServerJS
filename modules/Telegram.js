@@ -24,31 +24,32 @@ async function getRecurringOrders(identification, callback) {
     }
 };
 
-async function postRecurringOrders() {
+async function postRecurringOrders(sendOrder, callback) {
 
     try {
 
         let order = {
             method: 'POST',
-            url: TELEGRAM_CONFIG.URL + 'order'
+            url: TELEGRAM_CONFIG.URL + 'sendNotification',
+            body: sendOrder,
+            json: true
         };
 
-        let orderResponse = await REQUEST_PROMISE(order);
-        //let body = JSON.parse(orderResponse);
+        let orderResponse = await REQUEST_PROMISE(orders);
 
-        return { status: 200, estado: true, mensaje: 'Exitoso', datos: orderResponse };
+        callback(null, orderResponse);
 
     } catch (error) {
         console.log(error.message)
-            //callback(error);
-            // return { status: 500, estado: false, mensaje: error.message, datos: null }
-
+        callback(error);
     }
 };
 
 module.exports = {
     GetRecurringOrders: function(identification, callback) {
-            return (getRecurringOrders(identification, callback))
-        }
-        //getRecurringOrders
+        return (getRecurringOrders(identification, callback))
+    },
+    PostRecurringOrders: function(sendOrder, callback) {
+        return (postRecurringOrders(sendOrder, callback))
+    }
 }
