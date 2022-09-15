@@ -6,7 +6,7 @@ const REQUEST_PROMISE = require('request-promise')
 async function getRecurringOrders(identification, callback) {
 
     try {
-        console.log(TELEGRAM_CONFIG.URL);
+
         let orders = {
             method: 'GET',
             url: TELEGRAM_CONFIG.URL + 'orders',

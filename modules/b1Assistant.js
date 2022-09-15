@@ -469,7 +469,7 @@ function extractItem(item) {
 function getWelcomeMessage() {
     var message = [];
 
-    message[0] = "Soy el asistente virtual del Consensus Day, Cómo puedo ayudarte?"
+    message[0] = "Soy el asistente virtual del Consensus Day. ¿Cómo puedo ayudarte?"
     return message[getRandomInt(0, message.length - 1)];
 }
 
@@ -508,6 +508,7 @@ function buildResponse(sessionAttributes, speechletResponse) {
 }
 
 function getRecurringOrders(intent, session, callback) {
+
     let repromptText = null;
     sessionAttributes = {};
     shouldEndSession = false;
@@ -515,33 +516,39 @@ function getRecurringOrders(intent, session, callback) {
     sendJSON = "",
         orders = "";
 
-    let BusinessPartner = extractValue('BusinessPartner', intent, session);
-    console.log("BusinessPartner Extraido " + BusinessPartner);
+    let businessPartner = extractValue('BusinessPartner', intent, session);
+    console.log("BusinessPartner Extraido " + businessPartner);
 
-    sessionAttributes = handleSessionAttributes(sessionAttributes, 'BusinessPartner', BusinessPartner);
+    sessionAttributes = handleSessionAttributes(sessionAttributes, 'BusinessPartner', businessPartner);
 
 
     if (BusinessPartner == null) {
         speechOutput = "¿Cuál es tu numero de identificacion?";
         repromptText = "¿Cuál es tu numero de identificacion?";
     } else {
-        sendJSON = {
-            "idNumber": BusinessPartner
-        }
+
+        sendJSON = bodyBuilGet(businessPartner);
+
         TELEGRAM.GetRecurringOrders(sendJSON, function(err, response) {
             if (err) {
                 console.error(err)
-                speechOutput = "Hubo un problema en la comunicación con Telegram. Porfavor intentelo de nuevo" + err.message
+                speechOutput = "Hubo un problema en la comunicación con Telegram. Porfavor intentelo de nuevo " + err.message
             } else {
-                if (response.data.length === 0) {
-                    speechOutput = "Lo siento, pero no hay pedidos recurrentes";
-                } else {
-                    for (var i = 0; i < response.data.length; i++) {
-                        orders += response.data[i].U_DescPedido + "," + "\n";
+                if (response.data) {
+                    if (response.data.length === 0) {
+                        speechOutput = "Lo siento, pero no hay pedidos recurrentes";
+                    } else {
+                        for (var i = 0; i < response.data.length; i++) {
+                            orders += response.data[i].U_DescPedido + "," + "\n";
+                        }
+                        orders = orders.substring(0, orders.length - 2);
+                        speechOutput = "Tus pedidos recurrentes son:" + "\n" + orders + "." + "\n" +
+                            "¿Cuál desea escoger?";
                     }
-                    orders = orders.substring(0, orders.length - 2);
-                    speechOutput = "Sus pedidos recurrentes son:" + "\n" + orders + "." + "\n" + "¿Cuál desea escoger?";
+                } else {
+                    speechOutput = response.error;
                 }
+
             }
 
             shouldEndSession = true;
@@ -564,4 +571,13 @@ function getRecurringOrders(intent, session, callback) {
             repromptText, shouldEndSession
         )
     );
+}
+
+function bodyBuilGet(businessPartner) {
+
+    let body = {
+        idNumber: businessPartner
+    };
+
+    return body;
 }
