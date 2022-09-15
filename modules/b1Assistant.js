@@ -522,8 +522,8 @@ function getRecurringOrders(intent, session, callback) {
 
 
     if (BusinessPartner == null) {
-        speechOutput = "Cual es tu numero de identificacion?";
-        repromptText = "Cual es tu numero de identificacion?";
+        speechOutput = "¿Cuál es tu numero de identificacion?";
+        repromptText = "¿Cuál es tu numero de identificacion?";
     } else {
         sendJSON = {
             "idNumber": BusinessPartner
@@ -539,8 +539,9 @@ function getRecurringOrders(intent, session, callback) {
                     for (var i = 0; i < response.data.length; i++) {
                         orders += response.data[i].U_DescPedido + ", " + "\n";
                     }
-                    orders = orders.substring(0, orders.length - 1);
+                    orders = orders.substring(0, orders.length - 2);
                     speechOutput = "Sus pedidos recurrentes son:" + "\n" + orders;
+                    speechOutput = "¿Cuál desea escoger?"
                 }
             }
 
