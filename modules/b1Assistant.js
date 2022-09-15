@@ -554,7 +554,7 @@ function getRecurringOrders(intent, session, callback) {
 
                 }
 
-                if (validate) {
+                /*if (validate) {
                     let order = extractValue('Order', intent, session);
                     sessionAttributes = handleSessionAttributes(sessionAttributes, 'Order', order);
 
@@ -587,7 +587,7 @@ function getRecurringOrders(intent, session, callback) {
                             });
                         }
                     }
-                }
+                }*/
 
             }
 
