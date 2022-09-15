@@ -518,7 +518,8 @@ function getRecurringOrders(intent, session, callback) {
         orders = "",
         validate = false,
         order = false,
-        index = 0;;
+        index = 0,
+        orderResponse = "";
 
     let businessPartner = extractValue('BusinessPartner', intent, session);
     console.log("BusinessPartner Extraido " + businessPartner);
@@ -547,19 +548,13 @@ function getRecurringOrders(intent, session, callback) {
                     validate = true;
                     orders = orders.substring(0, orders.length - 2);
                     speechOutput = "Tus pedidos recurrentes son:" + "\n" + orders + ".";
+                    orderResponse = response;
 
                     //postOrderTelegram(intent, session, callback, response, businessPartner);
 
                 }
 
             }
-
-            shouldEndSession = true;
-
-            // callback with result
-            callback(sessionAttributes,
-                buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession)
-            );
         });
         if (validate) {
             let order = extractValue('Order', intent, session);
