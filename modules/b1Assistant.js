@@ -522,8 +522,8 @@ function getRecurringOrders(intent, session, callback) {
     sessionAttributes = handleSessionAttributes(sessionAttributes, 'BusinessPartner', businessPartner);
 
     if (businessPartner == null) {
-        speechOutput = "¿Cuál es tu numero de identificacion?";
-        repromptText = "¿Cuál es tu numero de identificacion?";
+        speechOutput = "¿Cuál es tu numero de identificación?";
+        repromptText = "¿Cuál es tu numero de identificación?";
     } else {
 
         sendJSON = bodyBuilGet(businessPartner);
