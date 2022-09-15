@@ -16,9 +16,7 @@ async function getRecurringOrders(identification, callback) {
 
         let orderResponse = await REQUEST_PROMISE(orders);
 
-        if (orderResponse.status) {
-            callback(null, orderResponse);
-        }
+        callback(null, orderResponse);
 
     } catch (error) {
         console.log(error.message)
