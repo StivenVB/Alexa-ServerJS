@@ -564,7 +564,7 @@ function getRecurringOrders(intent, session, callback) {
                 buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession)
             );
         });
-        if (validate) {
+        /*if (validate) {
             let order = extractValue('Order', intent, session);
             sessionAttributes = handleSessionAttributes(sessionAttributes, 'Order', order);
 
@@ -597,7 +597,7 @@ function getRecurringOrders(intent, session, callback) {
                     });
                 }
             }
-        }
+        }*/
         return;
     }
 
