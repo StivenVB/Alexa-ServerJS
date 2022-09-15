@@ -508,14 +508,14 @@ function buildResponse(sessionAttributes, speechletResponse) {
 }
 
 function getRecurringOrders(intent, session, callback) {
-    var repromptText = null;
-    var sessionAttributes = {};
-    var shouldEndSession = false;
-    var speechOutput = "";
-    let sendJSON = "",
+    let repromptText = null;
+    sessionAttributes = {};
+    shouldEndSession = false;
+    speechOutput = "";
+    sendJSON = "",
         orders = "";
 
-    var BusinessPartner = extractValue('BusinessPartner', intent, session);
+    let BusinessPartner = extractValue('BusinessPartner', intent, session);
     console.log("BusinessPartner Extraido " + BusinessPartner);
 
     sessionAttributes = handleSessionAttributes(sessionAttributes, 'BusinessPartner', BusinessPartner);
