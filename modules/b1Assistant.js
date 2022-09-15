@@ -544,7 +544,7 @@ function getRecurringOrders(intent, session, callback) {
                     orders = orders.substring(0, orders.length - 2);
                     speechOutput = "Tus pedidos recurrentes son:" + "\n" + orders + ".";
 
-                    //postOrderTelegram(intent, session, callback, response, businessPartner);
+                    postOrderTelegram(intent, session, callback, response, businessPartner);
                 }
 
             }
@@ -582,11 +582,9 @@ function postOrderTelegram(intent, session, callback, orderResponse, businessPar
         index = 0;
 
     let order = extractValue('Order', intent, session);
-    console.log("BusinessPartner Extraido " + businessPartner);
-
     sessionAttributes = handleSessionAttributes(sessionAttributes, 'Order', order);
 
-    if (businessPartner == null) {
+    if (order == null) {
         speechOutput = "¿Cuál desea escoger?";
         repromptText = "¿Cuál desea escoger?";
     } else {
