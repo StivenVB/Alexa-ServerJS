@@ -4,7 +4,8 @@
 
 // Module to perform Service Layer Calls
 const { post } = require("request");
-const B1SL = require("./Azure_b1ServiceLayer")
+const B1SL = require("./Azure_b1ServiceLayer");
+const { PostRecurringOrders } = require("./Telegram");
 
 const TELEGRAM = require("./Telegram");
 
@@ -106,6 +107,7 @@ function onIntent(intentRequest, session, callback) {
 
         case "MakeOrder":
             getRecurringOrders(intent, session, callback);
+            //PostRecurringOrders(intent, session, callback);
             break;
 
         default:
@@ -552,14 +554,30 @@ function getRecurringOrders(intent, session, callback) {
                     console.log("Antes:  " + JSON.stringify(response));
                     orderResponse = response;
 
-                    let order = "Pedido gatos";
-                    if (order === null) {
+
+                    //let order = "Pedido gatos";
+                    let order = extractValue('Order', intent, session);
+                    sessionAttributes = handleSessionAttributes(sessionAttributes, 'Order', order);
+                    /*if (order === null) {
                         repromptText = "¿Cuál desea elegir?";
                     } else {
                         postOrderTelegram(orderResponse, businessPartner, order);
                         shouldEndSession = true;
+                    }*/
+                    let sendJSON2 = {
+                        idNumber: businessPartner,
+                        descPedido: order
                     }
+                    TELEGRAM.PostRecurringOrders(sendJSON2, function(err, response) {
+                        if (err) {
+                            console.error(err.message)
+                                //return "Hubo un problema en la comunicación con Telegram. Porfavor intentelo de nuevo " + err.message
+                        } else {
+                            console.log(response.message)
+                                //return response.message;
 
+                        }
+                    });
                     console.log("test: " + order);
                     /* if (orderResponse) {
                          postOrderTelegram(intent, session, callback, orderResponse, businessPartner);
