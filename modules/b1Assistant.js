@@ -553,10 +553,15 @@ function getRecurringOrders(intent, session, callback) {
             }
 
             shouldEndSession = true;
+            // callback with result
+            callback(sessionAttributes,
+                buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession)
+            );
+            return;
         });
 
     }
-    if (orderResponse) {
+    /*if (orderResponse) {
         let order = extractValue('Order', intent, session);
         sessionAttributes = handleSessionAttributes(sessionAttributes, 'Order', order);
         if (order == null) {
@@ -588,8 +593,18 @@ function getRecurringOrders(intent, session, callback) {
                 repromptText, shouldEndSession
             )
         );
-    }
+    }*/
 
+    sessionAttributes = handleSessionAttributes(sessionAttributes, 'PreviousIntent', intent.name);
+
+
+    // Call back while there still questions to ask
+    callback(sessionAttributes,
+        buildSpeechletResponse(
+            intent.name, speechOutput,
+            repromptText, shouldEndSession
+        )
+    );
 
 }
 
