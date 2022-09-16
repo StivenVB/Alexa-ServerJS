@@ -108,7 +108,7 @@ function onIntent(intentRequest, session, callback) {
 
         case "MakeOrder":
             getRecurringOrders(intent, session, callback);
-            console.log("in" + businessPartner);
+            /* console.log("in" + businessPartner);
             let res = {
                 "status": true,
                 "data": [{
@@ -124,7 +124,7 @@ function onIntent(intentRequest, session, callback) {
 
             let bp = "1007232211"
             postOrderTelegram(intent, session, callback, res, bp);
-
+*/
             break;
 
         default:
@@ -557,32 +557,10 @@ function getRecurringOrders(intent, session, callback) {
                 console.error(err)
                 speechOutput = "Hubo un problema en la comunicación con Telegram. Porfavor intentelo de nuevo " + err.message;
 
-
-                shouldEndSession = true;
-                callback(sessionAttributes,
-                    buildSpeechletResponse(
-                        intent.name, speechOutput,
-                        repromptText, shouldEndSession
-                    )
-                );
-
-                return;
             } else {
 
                 if (response.data.length === 0) {
                     speechOutput = "Lo siento, pero no hay pedidos recurrentes";
-
-
-                    shouldEndSession = true;
-                    callback(sessionAttributes,
-                        buildSpeechletResponse(
-                            intent.name, speechOutput,
-                            repromptText, shouldEndSession
-                        )
-                    );
-
-                    return;
-
                 } else {
                     for (var i = 0; i < response.data.length; i++) {
                         orders += response.data[i].U_DescPedido + "," + "\n";
@@ -593,7 +571,15 @@ function getRecurringOrders(intent, session, callback) {
                     //orderResponse = response;
                 }
             }
+            shouldEndSession = true;
+            callback(sessionAttributes,
+                buildSpeechletResponse(
+                    intent.name, speechOutput,
+                    repromptText, shouldEndSession
+                )
+            );
         });
+        return;
     }
 
 
