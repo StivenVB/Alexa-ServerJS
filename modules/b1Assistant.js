@@ -561,15 +561,14 @@ function getRecurringOrders(intent, session, callback) {
 
 
     }
-    if (orderResponse) {
-        if (order == null) {
-            speechOutput += "¿Cuál desea escoger?";
-            repromptText = "¿Cuál desea escoger?";
-        } else {
-            speechOutput += postOrderTelegram(orderResponse, businessPartner);
-            shouldEndSession = true;
-        }
+    if (order == null) {
+        speechOutput = "¿Cuál desea escoger?";
+        repromptText = "¿Cuál desea escoger?";
+    } else {
+        speechOutput = postOrderTelegram(orderResponse, businessPartner);
+        shouldEndSession = true;
     }
+
 
     // callback with result
     if (shouldEndSession) {
