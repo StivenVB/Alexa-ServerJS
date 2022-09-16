@@ -556,6 +556,7 @@ function getRecurringOrders(intent, session, callback) {
                     if (order === null) {
                         repromptText = "¿Cuál desea elegir?";
                     } else {
+                        postOrderTelegram(orderResponse, businessPartner, order);
                         shouldEndSession = true;
                     }
 
@@ -639,18 +640,19 @@ function postOrderTelegram(orderResponse, businessPartner, order) {
     }
 
     if (!orderData) {
-        return "Lo siento, el pedido recurrente no existe";
+        console.log("Lo siento, el pedido recurrente no existe");
+        //return "Lo siento, el pedido recurrente no existe";
     } else {
 
         sendJSON = bodyBuildPost(businessPartner, orderData);
 
         TELEGRAM.PostRecurringOrders(sendJSON, function(err, response) {
             if (err) {
-                console.error(err)
-                return "Hubo un problema en la comunicación con Telegram. Porfavor intentelo de nuevo " + err.message
+                console.error(err.message)
+                    //return "Hubo un problema en la comunicación con Telegram. Porfavor intentelo de nuevo " + err.message
             } else {
-
-                return response.message;
+                console.log(response.message)
+                    //return response.message;
 
             }
         });
