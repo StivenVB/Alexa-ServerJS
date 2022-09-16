@@ -525,8 +525,6 @@ function getRecurringOrders(intent, session, callback) {
     let businessPartner = extractValue('BusinessPartner', intent, session);
     console.log("BusinessPartner Extraido " + businessPartner);
 
-    let order = extractValue('Order', intent, session);
-    sessionAttributes = handleSessionAttributes(sessionAttributes, 'Order', order);
 
     sessionAttributes = handleSessionAttributes(sessionAttributes, 'BusinessPartner', businessPartner);
 
@@ -534,7 +532,7 @@ function getRecurringOrders(intent, session, callback) {
     if (businessPartner == null) {
         speechOutput = "¿Cuál es tu número de identificación?";
         repromptText = "¿Cuál es tu número de identificación?";
-    } else if (businessPartner !== null) {
+    } else {
 
         sendJSON = bodyBuildGet(businessPartner);
 
@@ -555,16 +553,21 @@ function getRecurringOrders(intent, session, callback) {
                     orderResponse = response;
                 }
             }
-            /* callback(sessionAttributes,
-                 buildSpeechletResponse(
-                     intent.name, speechOutput,
-                     repromptText, shouldEndSession
-                 )
-             );*/
+            shouldEndSession = true;
+            callback(sessionAttributes,
+                buildSpeechletResponse(
+                    intent.name, speechOutput,
+                    repromptText, shouldEndSession
+                )
+            );
 
         });
-        //return;
-    } else if (orderResponse && order == null) {
+        return;
+    }
+
+    /*if (orderResponse) {
+        let order = extractValue('Order', intent, session);
+        sessionAttributes = handleSessionAttributes(sessionAttributes, 'Order', order);
         if (order == null) {
             speechOutput = "¿Cuál desea escoger?";
             repromptText = "¿Cuál desea escoger?";
@@ -590,7 +593,7 @@ function getRecurringOrders(intent, session, callback) {
             )
         );
         return;
-    }
+    }*/
 
     sessionAttributes = handleSessionAttributes(sessionAttributes, 'PreviousIntent', intent.name);
 
