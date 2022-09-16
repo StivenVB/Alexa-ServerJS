@@ -554,13 +554,18 @@ function getRecurringOrders(intent, session, callback) {
 
                 }
             }
-            shouldEndSession = true;
-            callback(sessionAttributes,
-                buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession)
-            );
+
+            if (!orderResponse) {
+
+                shouldEndSession = true;
+                callback(sessionAttributes,
+                    buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession)
+                );
+
+                return;
+            }
 
         });
-        return;
 
 
     }
