@@ -552,6 +552,10 @@ function getRecurringOrders(intent, session, callback) {
                     console.log("Antes:  " + JSON.stringify(response));
                     orderResponse = response;
 
+
+                    let order = extractValue('Order', intent, session);
+                    sessionAttributes = handleSessionAttributes(sessionAttributes, 'Order', order);
+                    console.log("test: " + order);
                     /* if (orderResponse) {
                          postOrderTelegram(intent, session, callback, orderResponse, businessPartner);
                      }*/
