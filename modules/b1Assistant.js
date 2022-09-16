@@ -583,18 +583,21 @@ function getRecurringOrders(intent, session, callback) {
                         return;
                     }*/
 
-                    shouldEndSession = true;
-                    callback(sessionAttributes,
-                        buildSpeechletResponse(
-                            intent.name, speechOutput,
-                            repromptText, shouldEndSession
-                        )
-                    );
-                    return;
+
+
                 }
+
             }
+            shouldEndSession = true;
+            callback(sessionAttributes,
+                buildSpeechletResponse(
+                    intent.name, speechOutput,
+                    repromptText, shouldEndSession
+                )
+            );
 
         });
+        return;
     }
 
 
