@@ -558,7 +558,7 @@ function getRecurringOrders(intent, session, callback) {
 
             shouldEndSession = true;
 
-            console.log("in" + orderResponse);
+
             // callback with result
             /*callback(sessionAttributes,
                 buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession)
@@ -567,6 +567,7 @@ function getRecurringOrders(intent, session, callback) {
         });
         // return;
     }
+    console.log("in2" + JSON.stringify(orderResponse));
     if (orderResponse) {
         if (order == null) {
             shouldEndSession = false;
