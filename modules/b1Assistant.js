@@ -555,7 +555,7 @@ function getRecurringOrders(intent, session, callback) {
                     /* if (orderResponse) {
                          postOrderTelegram(intent, session, callback, orderResponse, businessPartner);
                      }*/
-                    if (orderResponse) {
+                    /*if (orderResponse) {
                         console.log("Orders: " + JSON.stringify(orderResponse));
                         let order = extractValue('Order', intent, session);
                         sessionAttributes = handleSessionAttributes(sessionAttributes, 'Order', order);
@@ -581,7 +581,16 @@ function getRecurringOrders(intent, session, callback) {
                             )
                         );
                         return;
-                    }
+                    }*/
+
+                    shouldEndSession = true;
+                    callback(sessionAttributes,
+                        buildSpeechletResponse(
+                            intent.name, speechOutput,
+                            repromptText, shouldEndSession
+                        )
+                    );
+                    return;
                 }
             }
 
