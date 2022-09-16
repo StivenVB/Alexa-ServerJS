@@ -557,9 +557,9 @@ function getRecurringOrders(intent, session, callback) {
             callback(sessionAttributes,
                 buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession)
             );
-            return;
-        });
 
+        });
+        return;
     }
     /*if (orderResponse) {
         let order = extractValue('Order', intent, session);
