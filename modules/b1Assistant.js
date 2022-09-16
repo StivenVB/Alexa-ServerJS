@@ -548,7 +548,7 @@ function getRecurringOrders(intent, session, callback) {
 
                     orders = orders.substring(0, orders.length - 2);
                     speechOutput = "Tus pedidos recurrentes son:" + "\n" + orders + ".";
-                    //orderResponse = response;
+                    orderResponse = response;
                 }
             }
 
@@ -559,7 +559,7 @@ function getRecurringOrders(intent, session, callback) {
             );*/
 
         });
-        return;
+        // return;
     }
     if (orderResponse) {
         let order = extractValue('Order', intent, session);
