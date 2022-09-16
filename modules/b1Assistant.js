@@ -555,50 +555,30 @@ function getRecurringOrders(intent, session, callback) {
                 }
             }
 
-            if (!orderResponse) {
-                let order = extractValue('Order', intent, session);
-                sessionAttributes = handleSessionAttributes(sessionAttributes, 'Order', order);
-                if (order == null) {
-                    speechOutput += "¿Cuál desea escoger?";
-                    repromptText = "¿Cuál desea escoger?";
-                } else {
-                    speechOutput += postOrderTelegram(orderResponse, businessPartner);
-                    shouldEndSession = true;
-                }
-
-            } else {
-                shouldEndSession = true;
-                callback(sessionAttributes,
-                    buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession)
-                );
-
-                return;
-            }
-
         });
 
 
     }
-    /*if (shouldEndSession) {
+
+    if (!orderResponse) {
         let order = extractValue('Order', intent, session);
         sessionAttributes = handleSessionAttributes(sessionAttributes, 'Order', order);
         if (order == null) {
-            speechOutput = "¿Cuál desea escoger?";
+            speechOutput += "¿Cuál desea escoger?";
             repromptText = "¿Cuál desea escoger?";
         } else {
-            speechOutput = postOrderTelegram(orderResponse, businessPartner);
+            speechOutput += postOrderTelegram(orderResponse, businessPartner);
             shouldEndSession = true;
         }
-    }*/
 
+    } else {
+        shouldEndSession = true;
+        callback(sessionAttributes,
+            buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession)
+        );
 
-    // callback with result
-    /* if (shouldEndSession) {
-         callback(sessionAttributes,
-             buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession)
-         );
-         return;
-     }*/
+        return;
+    }
 
 
     sessionAttributes = handleSessionAttributes(sessionAttributes, 'PreviousIntent', intent.name);
