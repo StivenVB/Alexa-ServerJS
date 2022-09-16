@@ -58,7 +58,7 @@ app.get('/', function(req, res) {
 
 });
 
-app.get('/test', function(req, res, next) {
+/*app.get('/test', function(req, res, next) {
     let cc = {
         "idNumber": "802023637"
     };
@@ -101,7 +101,7 @@ app.post('/postOrder', function(req, res, next) {
                 .status(status)
                 .json(error)
         })
-})
+})*/
 
 
 app.listen(PORT, function() {

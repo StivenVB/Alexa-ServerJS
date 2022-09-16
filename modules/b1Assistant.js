@@ -518,8 +518,9 @@ function getRecurringOrders(intent, session, callback) {
         orders = "",
         validate = false,
         orderData = false,
-        index = 0,
-        orderResponse = false;
+        index = 0;
+
+    var orderResponse = false;
 
     let businessPartner = extractValue('BusinessPartner', intent, session);
     console.log("BusinessPartner Extraido " + businessPartner);
@@ -560,9 +561,9 @@ function getRecurringOrders(intent, session, callback) {
 
 
             // callback with result
-            callback(sessionAttributes,
+            /*callback(sessionAttributes,
                 buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession)
-            );
+            );*/
 
         });
         // return;
