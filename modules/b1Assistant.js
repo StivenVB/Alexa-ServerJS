@@ -525,9 +525,7 @@ function getRecurringOrders(intent, session, callback) {
     let businessPartner = extractValue('BusinessPartner', intent, session);
     console.log("BusinessPartner Extraido " + businessPartner);
 
-
     sessionAttributes = handleSessionAttributes(sessionAttributes, 'BusinessPartner', businessPartner);
-
 
     if (businessPartner == null) {
         speechOutput = "¿Cuál es tu número de identificación?";
@@ -551,49 +549,53 @@ function getRecurringOrders(intent, session, callback) {
                     orders = orders.substring(0, orders.length - 2);
                     speechOutput = "Tus pedidos recurrentes son:" + "\n" + orders + "." + "\n";
                     orderResponse = response;
+
+                    if (orderResponse) {
+
+                        let order = extractValue('Order', intent, session);
+                        sessionAttributes = handleSessionAttributes(sessionAttributes, 'Order', order);
+                        if (order == null) {
+                            speechOutput = "¿Cuál desea escoger?";
+                            repromptText = "¿Cuál desea escoger?";
+                        } else {
+                            speechOutput = "Usted escogio: " + order;
+                            speechOutput = postOrderTelegram(orderResponse, businessPartner, order);
+
+                            shouldEndSession = true;
+                            callback(sessionAttributes,
+                                buildSpeechletResponse(
+                                    intent.name, speechOutput,
+                                    repromptText, shouldEndSession
+                                )
+                            );
+                            return;
+                        }
+
+                    } else {
+                        shouldEndSession = true;
+                        callback(sessionAttributes,
+                            buildSpeechletResponse(
+                                intent.name, speechOutput,
+                                repromptText, shouldEndSession
+                            )
+                        );
+                        return;
+                    }
                 }
             }
-            shouldEndSession = true;
+            /*  shouldEndSession = true;
             callback(sessionAttributes,
                 buildSpeechletResponse(
                     intent.name, speechOutput,
                     repromptText, shouldEndSession
                 )
             );
-
+*/
         });
-        return;
+        // return;
     }
 
-    /*if (orderResponse) {
-        let order = extractValue('Order', intent, session);
-        sessionAttributes = handleSessionAttributes(sessionAttributes, 'Order', order);
-        if (order == null) {
-            speechOutput = "¿Cuál desea escoger?";
-            repromptText = "¿Cuál desea escoger?";
-        } else {
-            speechOutput += postOrderTelegram(orderResponse, businessPartner);
 
-            shouldEndSession = true;
-            callback(sessionAttributes,
-                buildSpeechletResponse(
-                    intent.name, speechOutput,
-                    repromptText, shouldEndSession
-                )
-            );
-            return;
-        }
-
-    } else {
-        shouldEndSession = true;
-        callback(sessionAttributes,
-            buildSpeechletResponse(
-                intent.name, speechOutput,
-                repromptText, shouldEndSession
-            )
-        );
-        return;
-    }*/
 
     sessionAttributes = handleSessionAttributes(sessionAttributes, 'PreviousIntent', intent.name);
 
@@ -607,7 +609,7 @@ function getRecurringOrders(intent, session, callback) {
 }
 
 
-function postOrderTelegram(orderResponse, businessPartner) {
+function postOrderTelegram(orderResponse, businessPartner, order) {
 
     let
         orderData = false,
