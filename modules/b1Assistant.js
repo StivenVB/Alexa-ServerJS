@@ -519,7 +519,7 @@ function getRecurringOrders(intent, session, callback) {
         validate = false,
         orderData = false,
         index = 0,
-        orderResponse = "";
+        orderResponse = false;
 
     let businessPartner = extractValue('BusinessPartner', intent, session);
     console.log("BusinessPartner Extraido " + businessPartner);
@@ -545,21 +545,32 @@ function getRecurringOrders(intent, session, callback) {
                     for (var i = 0; i < response.data.length; i++) {
                         orders += response.data[i].U_DescPedido + "," + "\n";
                     }
-                    validate = true;
+
                     orders = orders.substring(0, orders.length - 2);
                     speechOutput = "Tus pedidos recurrentes son:" + "\n" + orders + ".";
                     orderResponse = response;
-                    postOrderTelegram(intent, session, callback, response, businessPartner);
                 }
             }
-
-            shouldEndSession = true;
-
-            // callback with result
-            callback(sessionAttributes,
-                buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession)
-            );
         });
+
+
+        if (orderResponse) {
+            let order = extractValue('Order', intent, session);
+            sessionAttributes = handleSessionAttributes(sessionAttributes, 'Order', order);
+            if (order == null) {
+                speechOutput = "¿Cuál desea escoger?";
+                repromptText = "¿Cuál desea escoger?";
+            } else {
+                speechOutput = postOrderTelegram(orderResponse, businessPartner);
+            }
+        }
+
+        shouldEndSession = true;
+
+        // callback with result
+        callback(sessionAttributes,
+            buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession)
+        );
 
         return;
     }
@@ -577,47 +588,34 @@ function getRecurringOrders(intent, session, callback) {
 }
 
 
-function postOrderTelegram(intent, session, callback, orderResponse, businessPartner) {
+function postOrderTelegram(orderResponse, businessPartner) {
 
-    let repromptText = null;
-    sessionAttributes = {};
-    shouldEndSession = false;
-    speechOutput = "",
+    let
         orderData = false,
         index = 0;
 
-    let order = extractValue('Order', intent, session);
-    sessionAttributes = handleSessionAttributes(sessionAttributes, 'Order', order);
+    while (!orderData && index < orderResponse.data.length) {
+        if (order.replace(/ /g, "").toUpperCase() === orderResponse.data[index].U_DescPedido.replace(/ /g, "").toUpperCase()) {
+            orderData = orderResponse.data[index].U_DescPedido;
+        }
+    }
 
-    if (order == null) {
-        speechOutput = "¿Cuál desea escoger?";
-        repromptText = "¿Cuál desea escoger?";
+    if (!orderData) {
+        return "Lo siento, el pedido recurrente no existe";
     } else {
 
-        while (!orderData && index < orderResponse.data.length) {
-            if (order.replace(/ /g, "").toUpperCase() === orderResponse.data[index].U_DescPedido.replace(/ /g, "").toUpperCase()) {
-                orderData = orderResponse.data[index].U_DescPedido;
+        sendJSON = bodyBuildPost(businessPartner, orderData);
+
+        TELEGRAM.PostRecurringOrders(sendJSON, function(err, response) {
+            if (err) {
+                console.error(err)
+                return "Hubo un problema en la comunicación con Telegram. Porfavor intentelo de nuevo " + err.message
+            } else {
+
+                return response.message;
+
             }
-        }
-
-        if (!orderData) {
-            speechOutput = "Lo siento, el pedido recurrente no existe";
-        } else {
-
-            sendJSON = bodyBuildPost(businessPartner, orderData);
-
-            TELEGRAM.PostRecurringOrders(sendJSON, function(err, response) {
-                if (err) {
-                    console.error(err)
-                    speechOutput = "Hubo un problema en la comunicación con Telegram. Porfavor intentelo de nuevo " + err.message
-                } else {
-
-                    speechOutput = response.message;
-
-                }
-            });
-        }
-        return;
+        });
     }
 }
 
