@@ -553,7 +553,7 @@ function getRecurringOrders(intent, session, callback) {
                     orderResponse = response;
 
                     if (orderResponse) {
-                        postOrderTelegram(intent, session, callback, orderResponse, businessPartner, order);
+                        postOrderTelegram(intent, session, callback, orderResponse, businessPartner);
                     }
                     /* if (orderResponse) {
                          console.log("Orders: " + JSON.stringify(orderResponse));
@@ -615,7 +615,7 @@ function getRecurringOrders(intent, session, callback) {
 }
 
 
-function postOrderTelegram(intent, session, callback, orderResponse, businessPartner, order) {
+function postOrderTelegram(intent, session, callback, orderResponse, businessPartner) {
 
     let
         orderData = false,
