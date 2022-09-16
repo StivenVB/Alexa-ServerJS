@@ -543,16 +543,12 @@ function getRecurringOrders(intent, session, callback) {
         TELEGRAM.GetRecurringOrders(sendJSON, function(err, response) {
             if (err) {
                 console.error(err)
-                speechOutput = "Hubo un problema en la comunicación con Telegram. Porfavor intentelo de nuevo " + err.message
-
-                shouldEndSession = true;
+                speechOutput = "Hubo un problema en la comunicación con Telegram. Porfavor intentelo de nuevo " + err.message;
 
             } else {
 
                 if (response.data.length === 0) {
                     speechOutput = "Lo siento, pero no hay pedidos recurrentes";
-
-                    shouldEndSession = true;
 
 
                 } else {
@@ -567,17 +563,15 @@ function getRecurringOrders(intent, session, callback) {
 
             }
 
-            if (shouldEndSession) {
-                callback(sessionAttributes,
-                    buildSpeechletResponse(
-                        intent.name, speechOutput,
-                        repromptText, shouldEndSession
-                    )
-                );
-                return;
-            }
+            shouldEndSession = true;
+            callback(sessionAttributes,
+                buildSpeechletResponse(
+                    intent.name, speechOutput,
+                    repromptText, shouldEndSession
+                )
+            );
         });
-
+        return;
     }
 
 
