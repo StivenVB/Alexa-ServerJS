@@ -551,40 +551,45 @@ function getRecurringOrders(intent, session, callback) {
                     orderResponse = response;
                 }
             }
+
+            shouldEndSession = true;
         });
 
-
-        if (orderResponse) {
-            let order = extractValue('Order', intent, session);
-            sessionAttributes = handleSessionAttributes(sessionAttributes, 'Order', order);
-            if (order == null) {
-                speechOutput = "¿Cuál desea escoger?";
-                repromptText = "¿Cuál desea escoger?";
-            } else {
-                speechOutput = postOrderTelegram(orderResponse, businessPartner);
-            }
+    }
+    if (orderResponse) {
+        let order = extractValue('Order', intent, session);
+        sessionAttributes = handleSessionAttributes(sessionAttributes, 'Order', order);
+        if (order == null) {
+            shouldEndSession = false;
+            speechOutput = "¿Cuál desea escoger?";
+            repromptText = "¿Cuál desea escoger?";
+        } else {
+            speechOutput = postOrderTelegram(orderResponse, businessPartner);
+            shouldEndSession = true;
         }
+    }
 
-        shouldEndSession = true;
+    if (shouldEndSession) {
 
         // callback with result
         callback(sessionAttributes,
             buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession)
         );
+    } else {
 
-        return;
+        sessionAttributes = handleSessionAttributes(sessionAttributes, 'PreviousIntent', intent.name);
+
+
+        // Call back while there still questions to ask
+        callback(sessionAttributes,
+            buildSpeechletResponse(
+                intent.name, speechOutput,
+                repromptText, shouldEndSession
+            )
+        );
     }
 
-    sessionAttributes = handleSessionAttributes(sessionAttributes, 'PreviousIntent', intent.name);
-
-
-    // Call back while there still questions to ask
-    callback(sessionAttributes,
-        buildSpeechletResponse(
-            intent.name, speechOutput,
-            repromptText, shouldEndSession
-        )
-    );
+    return;
 }
 
 
