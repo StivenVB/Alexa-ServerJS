@@ -554,61 +554,42 @@ function getRecurringOrders(intent, session, callback) {
                     orders = orders.substring(0, orders.length - 2);
                     speechOutput = "Tus pedidos recurrentes son:" + "\n" + orders + ".";
                     orderResponse = response;
+                    shouldEndSession = true;
                 }
             }
 
             if (orderResponse) {
                 if (order == null) {
-                    shouldEndSession = false;
-                    speechOutput += "¿Cuál desea escoger?";
+                    speechOutput = "¿Cuál desea escoger?";
                     repromptText = "¿Cuál desea escoger?";
                 } else {
                     speechOutput += postOrderTelegram(orderResponse, businessPartner);
                     shouldEndSession = true;
                 }
             }
+
             // callback with result
-            /*callback(sessionAttributes,
-                buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession)
-            );*/
+            if (shouldEndSession) {
+                callback(sessionAttributes,
+                    buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession)
+                );
+            }
 
         });
 
         // return;
     }
 
-
-    if (shouldEndSession) {
-
-        // callback with result
-        callback(sessionAttributes,
-            buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession)
-        );
-        return;
-    } else {
-
-        sessionAttributes = handleSessionAttributes(sessionAttributes, 'PreviousIntent', intent.name);
+    sessionAttributes = handleSessionAttributes(sessionAttributes, 'PreviousIntent', intent.name);
 
 
-        // Call back while there still questions to ask
-        callback(sessionAttributes,
-            buildSpeechletResponse(
-                intent.name, speechOutput,
-                repromptText, shouldEndSession
-            )
-        );
-    }
-
-    /* sessionAttributes = handleSessionAttributes(sessionAttributes, 'PreviousIntent', intent.name);
-
-
-     // Call back while there still questions to ask
-     callback(sessionAttributes,
-         buildSpeechletResponse(
-             intent.name, speechOutput,
-             repromptText, shouldEndSession
-         )
-     );*/
+    // Call back while there still questions to ask
+    callback(sessionAttributes,
+        buildSpeechletResponse(
+            intent.name, speechOutput,
+            repromptText, shouldEndSession
+        )
+    );
 
 }
 
