@@ -557,10 +557,16 @@ function getRecurringOrders(intent, session, callback) {
                 }
             }
 
-            console.log("in1" + JSON.stringify(orderResponse));
-
-            console.log("in2" + JSON.stringify(orderResponse));
-
+            if (orderResponse) {
+                if (order == null) {
+                    shouldEndSession = false;
+                    speechOutput += "¿Cuál desea escoger?";
+                    repromptText = "¿Cuál desea escoger?";
+                } else {
+                    speechOutput += postOrderTelegram(orderResponse, businessPartner);
+                    shouldEndSession = true;
+                }
+            }
             // callback with result
             /*callback(sessionAttributes,
                 buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession)
@@ -568,19 +574,9 @@ function getRecurringOrders(intent, session, callback) {
 
         });
 
-        console.log("in3" + JSON.stringify(orderResponse));
         // return;
     }
-    if (orderResponse) {
-        if (order == null) {
-            shouldEndSession = false;
-            speechOutput = "¿Cuál desea escoger?";
-            repromptText = "¿Cuál desea escoger?";
-        } else {
-            speechOutput = postOrderTelegram(orderResponse, businessPartner);
-            shouldEndSession = true;
-        }
-    }
+
 
     if (shouldEndSession) {
 
