@@ -548,27 +548,28 @@ function getRecurringOrders(intent, session, callback) {
                     for (var i = 0; i < response.data.length; i++) {
                         orders += response.data[i].U_DescPedido + "," + "\n";
                     }
-
                     orders = orders.substring(0, orders.length - 2);
                     speechOutput = "Tus pedidos recurrentes son:" + "\n" + orders + "." + "\n";
                     orderResponse = response;
                     shouldEndSession = true;
                 }
             }
-
-
         });
 
 
     }
-    let order = extractValue('Order', intent, session);
-    sessionAttributes = handleSessionAttributes(sessionAttributes, 'Order', order);
-    if (order == null) {
-        speechOutput = "¿Cuál desea escoger?";
-        repromptText = "¿Cuál desea escoger?";
-    } else {
-        speechOutput = postOrderTelegram(orderResponse, businessPartner);
-        shouldEndSession = true;
+
+    if (shouldEndSession) {
+        console.log("data: " + JSON.stringify(orderResponse));
+        let order = extractValue('Order', intent, session);
+        sessionAttributes = handleSessionAttributes(sessionAttributes, 'Order', order);
+        if (order == null) {
+            speechOutput = "¿Cuál desea escoger?";
+            repromptText = "¿Cuál desea escoger?";
+        } else {
+            speechOutput = postOrderTelegram(orderResponse, businessPartner);
+            shouldEndSession = true;
+        }
     }
 
 
