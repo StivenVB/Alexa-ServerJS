@@ -559,8 +559,8 @@ function getRecurringOrders(intent, session, callback) {
 
     }
 
+    console.log("data: " + JSON.stringify(orderResponse));
     if (shouldEndSession) {
-        console.log("data: " + JSON.stringify(orderResponse));
         let order = extractValue('Order', intent, session);
         sessionAttributes = handleSessionAttributes(sessionAttributes, 'Order', order);
         if (order == null) {
