@@ -575,6 +575,7 @@ function getRecurringOrders(intent, session, callback) {
         callback(sessionAttributes,
             buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession)
         );
+        return;
     } else {
 
         sessionAttributes = handleSessionAttributes(sessionAttributes, 'PreviousIntent', intent.name);
@@ -589,7 +590,7 @@ function getRecurringOrders(intent, session, callback) {
         );
     }
 
-    return;
+
 }
 
 
