@@ -510,10 +510,10 @@ function buildResponse(sessionAttributes, speechletResponse) {
 
 function getRecurringOrders(intent, session, callback) {
 
-    let repromptText = null;
-    sessionAttributes = {};
-    shouldEndSession = false;
-    speechOutput = "",
+    let repromptText = null,
+        sessionAttributes = {},
+        shouldEndSession = false,
+        speechOutput = "",
         sendJSON = "",
         orders = "",
         validate = false,
@@ -552,9 +552,7 @@ function getRecurringOrders(intent, session, callback) {
                     console.log("Antes:  " + JSON.stringify(response));
                     orderResponse = response;
 
-                    let order = extractValue('Order', intent, session);
-                    sessionAttributes = handleSessionAttributes(sessionAttributes, 'Order', order);
-
+                    let order = "Pedido gatos";
                     if (order === null) {
                         repromptText = "¿Cuál desea elegir?";
                     } else {
