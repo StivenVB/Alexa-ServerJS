@@ -109,6 +109,7 @@ function onIntent(intentRequest, session, callback) {
         case "MakeOrder":
             getRecurringOrders(intent, session, callback);
             if (orderResponse !== null && businessPartner !== null) {
+                console.log("in" + businessPartner);
                 postOrderTelegram(intent, session, callback, orderResponse);
             }
             break;
@@ -556,7 +557,7 @@ function getRecurringOrders(intent, session, callback) {
                         orders += response.data[i].U_DescPedido + "," + "\n";
                     }
                     orders = orders.substring(0, orders.length - 2);
-                    speechOutput = "Tus pedidos recurrentes son:" + "\n" + orders + "." + "\n" + "¿Cuál desea elegir?";
+                    speechOutput = "Tus pedidos recurrentes son:" + "\n" + orders + ".";
                     console.log("Antes:  " + JSON.stringify(response));
                     orderResponse = response;
                 }
