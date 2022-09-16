@@ -566,6 +566,7 @@ function getRecurringOrders(intent, session, callback) {
         // return;
     }
     if (orderResponse) {
+        console.log("in" + orderResponse);
         if (order == null) {
             shouldEndSession = false;
             speechOutput += "¿Cuál desea escoger?";
