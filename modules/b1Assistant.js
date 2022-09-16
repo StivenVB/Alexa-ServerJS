@@ -525,9 +525,9 @@ function getRecurringOrders(intent, session, callback) {
     let businessPartner = extractValue('BusinessPartner', intent, session);
     console.log("BusinessPartner Extraido " + businessPartner);
 
-    let order = extractValue('Order', intent, session);
+
     sessionAttributes = handleSessionAttributes(sessionAttributes, 'BusinessPartner', businessPartner);
-    sessionAttributes = handleSessionAttributes(sessionAttributes, 'Order', order);
+
 
     if (businessPartner == null) {
         speechOutput = "¿Cuál es tu número de identificación?";
@@ -561,6 +561,8 @@ function getRecurringOrders(intent, session, callback) {
 
 
     }
+    let order = extractValue('Order', intent, session);
+    sessionAttributes = handleSessionAttributes(sessionAttributes, 'Order', order);
     if (order == null) {
         speechOutput = "¿Cuál desea escoger?";
         repromptText = "¿Cuál desea escoger?";
