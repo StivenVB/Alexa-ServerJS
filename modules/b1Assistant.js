@@ -556,7 +556,17 @@ function getRecurringOrders(intent, session, callback) {
             }
 
             if (!orderResponse) {
+                let order = extractValue('Order', intent, session);
+                sessionAttributes = handleSessionAttributes(sessionAttributes, 'Order', order);
+                if (order == null) {
+                    speechOutput = "¿Cuál desea escoger?";
+                    repromptText = "¿Cuál desea escoger?";
+                } else {
+                    speechOutput = postOrderTelegram(orderResponse, businessPartner);
+                    shouldEndSession = true;
+                }
 
+            } else {
                 shouldEndSession = true;
                 callback(sessionAttributes,
                     buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession)
