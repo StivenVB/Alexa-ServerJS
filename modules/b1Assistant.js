@@ -597,19 +597,19 @@ function getRecurringOrders(intent, session, callback) {
 
             }
 
-            if (shouldEndSession) {
 
-                callback(sessionAttributes,
-                    buildSpeechletResponse(
-                        intent.name, speechOutput,
-                        repromptText, shouldEndSession
-                    )
-                );
+            callback(sessionAttributes,
+                buildSpeechletResponse(
+                    intent.name, speechOutput,
+                    repromptText, shouldEndSession
+                )
+            );
 
-                return;
-            }
+
+
 
         });
+        return;
     }
 
 
