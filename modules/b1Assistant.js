@@ -557,8 +557,10 @@ function getRecurringOrders(intent, session, callback) {
                 }
             }
 
+            console.log("in1" + JSON.stringify(orderResponse));
             shouldEndSession = true;
 
+            console.log("in2" + JSON.stringify(orderResponse));
 
             // callback with result
             /*callback(sessionAttributes,
@@ -566,9 +568,10 @@ function getRecurringOrders(intent, session, callback) {
             );*/
 
         });
+
+        console.log("in3" + JSON.stringify(orderResponse));
         // return;
     }
-    console.log("in2" + JSON.stringify(orderResponse));
     if (orderResponse) {
         if (order == null) {
             shouldEndSession = false;
