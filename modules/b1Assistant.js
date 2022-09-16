@@ -526,8 +526,6 @@ function getRecurringOrders(intent, session, callback) {
     console.log("BusinessPartner Extraido " + businessPartner);
 
     let order = extractValue('Order', intent, session);
-
-
     sessionAttributes = handleSessionAttributes(sessionAttributes, 'BusinessPartner', businessPartner);
     sessionAttributes = handleSessionAttributes(sessionAttributes, 'Order', order);
 
@@ -558,27 +556,29 @@ function getRecurringOrders(intent, session, callback) {
                 }
             }
 
-            if (orderResponse) {
-                if (order == null) {
-                    speechOutput += "¿Cuál desea escoger?";
-                    repromptText = "¿Cuál desea escoger?";
-                } else {
-                    speechOutput += postOrderTelegram(orderResponse, businessPartner);
-                    shouldEndSession = true;
-                }
-            }
-
-            // callback with result
-            if (shouldEndSession) {
-                callback(sessionAttributes,
-                    buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession)
-                );
-            }
 
         });
 
+
+    }
+    if (orderResponse) {
+        if (order == null) {
+            speechOutput += "¿Cuál desea escoger?";
+            repromptText = "¿Cuál desea escoger?";
+        } else {
+            speechOutput += postOrderTelegram(orderResponse, businessPartner);
+            shouldEndSession = true;
+        }
+    }
+
+    // callback with result
+    if (shouldEndSession) {
+        callback(sessionAttributes,
+            buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession)
+        );
         return;
     }
+
 
     sessionAttributes = handleSessionAttributes(sessionAttributes, 'PreviousIntent', intent.name);
 
