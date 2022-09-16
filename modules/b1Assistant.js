@@ -532,6 +532,7 @@ function getRecurringOrders(intent, session, callback) {
         repromptText = "¿Cuál es tu número de identificación?";
     } else {
         speechOutput = "papas fritas";
+        speechOutput = "test Jorge";
         //  sendJSON = bodyBuildGet(businessPartner);
 
         /* TELEGRAM.GetRecurringOrders(sendJSON, function(err, response) {
