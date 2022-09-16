@@ -8,8 +8,8 @@ const B1SL = require("./Azure_b1ServiceLayer");
 const { PostRecurringOrders } = require("./Telegram");
 
 const TELEGRAM = require("./Telegram");
-var orderResponse = null;
-var businessPartner = null;
+//var orderResponse = null;
+//var businessPartner = null;
 exports.handler = function(event, context) {
     try {
         //console.log("event.session.application.applicationId=" + event.session.application.applicationId);
@@ -108,10 +108,23 @@ function onIntent(intentRequest, session, callback) {
 
         case "MakeOrder":
             getRecurringOrders(intent, session, callback);
-            if (orderResponse !== null && businessPartner !== null) {
-                console.log("in" + businessPartner);
-                postOrderTelegram(intent, session, callback, orderResponse);
-            }
+            console.log("in" + businessPartner);
+            let res = {
+                "status": true,
+                "data": [{
+                        "odata.etag": "W/\"356A192B7913B04C54574D18C28D46E6395428AB\"",
+                        "U_DescPedido": "Pedido gatos"
+                    },
+                    {
+                        "odata.etag": "W/\"356A192B7913B04C54574D18C28D46E6395428AB\"",
+                        "U_DescPedido": "Pedido gatuno"
+                    }
+                ]
+            };
+
+            let bp = "1007232211"
+            postOrderTelegram(intent, session, callback, res, bp);
+
             break;
 
         default:
@@ -528,7 +541,7 @@ function getRecurringOrders(intent, session, callback) {
 
     var orderResponse = false;
 
-    businessPartner = extractValue('BusinessPartner', intent, session);
+    let businessPartner = extractValue('BusinessPartner', intent, session);
     console.log("BusinessPartner Extraido " + businessPartner);
 
     sessionAttributes = handleSessionAttributes(sessionAttributes, 'BusinessPartner', businessPartner);
@@ -577,7 +590,7 @@ function getRecurringOrders(intent, session, callback) {
                     orders = orders.substring(0, orders.length - 2);
                     speechOutput = "Tus pedidos recurrentes son:" + "\n" + orders + ".";
                     console.log("Antes:  " + JSON.stringify(response));
-                    orderResponse = response;
+                    //orderResponse = response;
                 }
             }
         });
