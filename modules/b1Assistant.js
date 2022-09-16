@@ -554,8 +554,16 @@ function getRecurringOrders(intent, session, callback) {
 
                 }
             }
+            shouldEndSession = true;
+            callback(sessionAttributes,
+                buildSpeechletResponse(
+                    intent.name, speechOutput,
+                    repromptText, shouldEndSession
+                )
+            );
 
         });
+        return;
 
 
     }
