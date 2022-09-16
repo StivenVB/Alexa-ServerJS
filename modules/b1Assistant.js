@@ -537,8 +537,6 @@ function getRecurringOrders(intent, session, callback) {
         speechOutput = "¿Cuál es tu número de identificación?";
         repromptText = "¿Cuál es tu número de identificación?";
     } else {
-        //speechOutput = "papas fritas";
-        //speechOutput = "test Jorge";
         sendJSON = bodyBuildGet(businessPartner);
 
         TELEGRAM.GetRecurringOrders(sendJSON, function(err, response) {
@@ -546,11 +544,31 @@ function getRecurringOrders(intent, session, callback) {
                 console.error(err)
                 speechOutput = "Hubo un problema en la comunicación con Telegram. Porfavor intentelo de nuevo " + err.message;
 
+
+                shouldEndSession = true;
+                callback(sessionAttributes,
+                    buildSpeechletResponse(
+                        intent.name, speechOutput,
+                        repromptText, shouldEndSession
+                    )
+                );
+
+                return;
             } else {
 
                 if (response.data.length === 0) {
                     speechOutput = "Lo siento, pero no hay pedidos recurrentes";
 
+
+                    shouldEndSession = true;
+                    callback(sessionAttributes,
+                        buildSpeechletResponse(
+                            intent.name, speechOutput,
+                            repromptText, shouldEndSession
+                        )
+                    );
+
+                    return;
 
                 } else {
                     for (var i = 0; i < response.data.length; i++) {
@@ -561,18 +579,8 @@ function getRecurringOrders(intent, session, callback) {
                     console.log("Antes:  " + JSON.stringify(response));
                     orderResponse = response;
                 }
-
             }
-
-            shouldEndSession = true;
-            callback(sessionAttributes,
-                buildSpeechletResponse(
-                    intent.name, speechOutput,
-                    repromptText, shouldEndSession
-                )
-            );
         });
-        return;
     }
 
 
