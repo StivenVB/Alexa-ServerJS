@@ -583,7 +583,7 @@ function postOrderTelegram(intent, session, callback, orderResponse, businessPar
     sessionAttributes = {};
     shouldEndSession = false;
     speechOutput = "",
-        order = false,
+        orderData = false,
         index = 0;
 
     let order = extractValue('Order', intent, session);
@@ -594,17 +594,17 @@ function postOrderTelegram(intent, session, callback, orderResponse, businessPar
         repromptText = "¿Cuál desea escoger?";
     } else {
 
-        while (!order && index < orderResponse.data.length) {
+        while (!orderData && index < orderResponse.data.length) {
             if (order.replace(/ /g, "").toUpperCase() === orderResponse.data[index].U_DescPedido.replace(/ /g, "").toUpperCase()) {
-                order = orderResponse.data[index].U_DescPedido;
+                orderData = orderResponse.data[index].U_DescPedido;
             }
         }
 
-        if (!order) {
-            speechOutput = "Lo siento, el pedido recurrente: " + order + " no existe";
+        if (!orderData) {
+            speechOutput = "Lo siento, el pedido recurrente no existe";
         } else {
 
-            sendJSON = bodyBuildPost(businessPartner, order);
+            sendJSON = bodyBuildPost(businessPartner, orderData);
 
             TELEGRAM.PostRecurringOrders(sendJSON, function(err, response) {
                 if (err) {
