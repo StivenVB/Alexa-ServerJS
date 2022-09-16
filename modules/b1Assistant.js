@@ -549,54 +549,18 @@ function getRecurringOrders(intent, session, callback) {
                     orders = orders.substring(0, orders.length - 2);
                     speechOutput = "Tus pedidos recurrentes son:" + "\n" + orders + ".";
                     orderResponse = response;
-                    //postOrderTelegram(intent, session, callback, response, businessPartner);
-                }
-
-
-            }
-
-
-        });
-        if (validate) {
-            let order = extractValue('Order', intent, session);
-            sessionAttributes = handleSessionAttributes(sessionAttributes, 'Order', order);
-
-            if (order == null) {
-                speechOutput = "¿Cuál desea escoger?";
-                repromptText = "¿Cuál desea escoger?";
-            } else {
-
-                while (!orderData && index < orderResponse.data.length) {
-                    if (order.replace(/ /g, "").toUpperCase() === orderResponse.data[index].U_DescPedido.replace(/ /g, "").toUpperCase()) {
-                        orderData = orderResponse.data[index].U_DescPedido;
-                    }
-                }
-
-                if (!orderData) {
-                    speechOutput = "Lo siento, el pedido recurrente no existe";
-                } else {
-
-                    sendJSON = bodyBuildPost(businessPartner, orderData);
-
-                    TELEGRAM.PostRecurringOrders(sendJSON, function(err, response) {
-                        if (err) {
-                            console.error(err)
-                            speechOutput = "Hubo un problema en la comunicación con Telegram. Porfavor intentelo de nuevo " + err.message
-                        } else {
-
-                            speechOutput = response.message;
-
-                        }
-                    });
+                    postOrderTelegram(intent, session, callback, response, businessPartner);
                 }
             }
+
             shouldEndSession = true;
 
             // callback with result
             callback(sessionAttributes,
                 buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession)
             );
-        }
+        });
+
         return;
     }
 
@@ -651,28 +615,10 @@ function postOrderTelegram(intent, session, callback, orderResponse, businessPar
                     speechOutput = response.message;
 
                 }
-
-                shouldEndSession = true;
-
-                // callback with result
-                callback(sessionAttributes,
-                    buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession)
-                );
             });
         }
         return;
     }
-
-    sessionAttributes = handleSessionAttributes(sessionAttributes, 'PreviousIntent', intent.name);
-
-
-    // Call back while there still questions to ask
-    callback(sessionAttributes,
-        buildSpeechletResponse(
-            intent.name, speechOutput,
-            repromptText, shouldEndSession
-        )
-    );
 }
 
 function bodyBuildGet(businessPartner) {
