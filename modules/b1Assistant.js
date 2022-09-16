@@ -594,9 +594,6 @@ function getRecurringOrders(intent, session, callback) {
             repromptText, shouldEndSession
         )
     );
-
-    return;
-
 }
 
 
