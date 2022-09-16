@@ -8,6 +8,8 @@ const B1SL = require("./Azure_b1ServiceLayer")
 
 const TELEGRAM = require("./Telegram");
 
+var orderResponse = false;
+
 exports.handler = function(event, context) {
     try {
         //console.log("event.session.application.applicationId=" + event.session.application.applicationId);
@@ -520,7 +522,7 @@ function getRecurringOrders(intent, session, callback) {
         orderData = false,
         index = 0;
 
-    var orderResponse = false;
+    //var orderResponse = false;
 
     let businessPartner = extractValue('BusinessPartner', intent, session);
     console.log("BusinessPartner Extraido " + businessPartner);
@@ -559,7 +561,7 @@ function getRecurringOrders(intent, session, callback) {
 
 
     }
-
+    console.log("datos: " + JSON.stringify(orderResponse));
     if (orderResponse) {
         let order = extractValue('Order', intent, session);
         sessionAttributes = handleSessionAttributes(sessionAttributes, 'Order', order);
