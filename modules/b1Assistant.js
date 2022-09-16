@@ -548,7 +548,7 @@ function getRecurringOrders(intent, session, callback) {
 
                     orders = orders.substring(0, orders.length - 2);
                     speechOutput = "Tus pedidos recurrentes son:" + "\n" + orders + ".";
-                    orderResponse = response;
+                    //orderResponse = response;
                 }
             }
 
@@ -609,7 +609,7 @@ function getRecurringOrders(intent, session, callback) {
 }
 
 
-function postOrderTelegram(orderResponse, businessPartner) {
+/*function postOrderTelegram(orderResponse, businessPartner) {
 
     let
         orderData = false,
@@ -638,7 +638,7 @@ function postOrderTelegram(orderResponse, businessPartner) {
             }
         });
     }
-}
+}*/
 
 function bodyBuildGet(businessPartner) {
 
