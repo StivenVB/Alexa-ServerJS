@@ -546,24 +546,15 @@ function getRecurringOrders(intent, session, callback) {
                 speechOutput = "Hubo un problema en la comunicación con Telegram. Porfavor intentelo de nuevo " + err.message
 
                 shouldEndSession = true;
-                callback(sessionAttributes,
-                    buildSpeechletResponse(
-                        intent.name, speechOutput,
-                        repromptText, shouldEndSession
-                    )
-                );
+
             } else {
 
                 if (response.data.length === 0) {
                     speechOutput = "Lo siento, pero no hay pedidos recurrentes";
 
                     shouldEndSession = true;
-                    callback(sessionAttributes,
-                        buildSpeechletResponse(
-                            intent.name, speechOutput,
-                            repromptText, shouldEndSession
-                        )
-                    );
+
+
                 } else {
                     for (var i = 0; i < response.data.length; i++) {
                         orders += response.data[i].U_DescPedido + "," + "\n";
@@ -572,70 +563,21 @@ function getRecurringOrders(intent, session, callback) {
                     speechOutput = "Tus pedidos recurrentes son:" + "\n" + orders + "." + "\n" + "¿Cuál desea elegir?";
                     console.log("Antes:  " + JSON.stringify(response));
                     orderResponse = response;
-
-
-                    //let order = "Pedido gatos";
-                    /*let order = extractValue('Order', intent, session);
-                    sessionAttributes = handleSessionAttributes(sessionAttributes, 'Order', order);
-
-                    if (order == null) {
-                        speechOutput = "¿Cuál desea elegir?";
-                        repromptText = "¿Cuál desea elegir?";
-                    } else {
-                        let sendJSON2 = {
-                            idNumber: businessPartner,
-                            descPedido: order
-                        }
-                        TELEGRAM.PostRecurringOrders(sendJSON2, function(err, response) {
-                            if (err) {
-                                console.error(err.message)
-                                    //return "Hubo un problema en la comunicación con Telegram. Porfavor intentelo de nuevo " + err.message
-                            } else {
-                                console.log(response.message)
-                                    //return response.message;
-
-                            }
-                        });
-                        console.log("test: " + order);
-                    }*/
-                    /* if (orderResponse) {
-                         postOrderTelegram(intent, session, callback, orderResponse, businessPartner);
-                     }*/
-                    /*if (orderResponse) {
-                        console.log("Orders: " + JSON.stringify(orderResponse));
-                        let order = extractValue('Order', intent, session);
-                        sessionAttributes = handleSessionAttributes(sessionAttributes, 'Order', order);
-
-                        speechOutput = postOrderTelegram(orderResponse, businessPartner, order);
-
-                        shouldEndSession = true;
-                        callback(sessionAttributes,
-                            buildSpeechletResponse(
-                                intent.name, speechOutput,
-                                repromptText, shouldEndSession
-                            )
-                        );
-                        return;
-
-
-                    } else {
-                        shouldEndSession = true;
-                        callback(sessionAttributes,
-                            buildSpeechletResponse(
-                                intent.name, speechOutput,
-                                repromptText, shouldEndSession
-                            )
-                        );
-                        return;
-                    }*/
-
-
-
                 }
 
             }
+
+            if (shouldEndSession) {
+                callback(sessionAttributes,
+                    buildSpeechletResponse(
+                        intent.name, speechOutput,
+                        repromptText, shouldEndSession
+                    )
+                );
+                return;
+            }
         });
-        return;
+
     }
 
 
