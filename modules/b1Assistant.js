@@ -569,20 +569,10 @@ function getRecurringOrders(intent, session, callback) {
         } else {
             speechOutput += postOrderTelegram(orderResponse, businessPartner);
             shouldEndSession = true;
-            callback(sessionAttributes,
-                buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession)
-            );
-
-            return;
         }
 
     } else {
         shouldEndSession = true;
-        callback(sessionAttributes,
-            buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession)
-        );
-
-        return;
     }
 
 
@@ -596,6 +586,8 @@ function getRecurringOrders(intent, session, callback) {
             repromptText, shouldEndSession
         )
     );
+
+    return;
 
 }
 
