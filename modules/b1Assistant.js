@@ -558,7 +558,6 @@ function getRecurringOrders(intent, session, callback) {
             }
 
             console.log("in1" + JSON.stringify(orderResponse));
-            shouldEndSession = true;
 
             console.log("in2" + JSON.stringify(orderResponse));
 
