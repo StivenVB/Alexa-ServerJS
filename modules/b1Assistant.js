@@ -550,8 +550,6 @@ function getRecurringOrders(intent, session, callback) {
                     }
                     orders = orders.substring(0, orders.length - 2);
                     speechOutput = "Tus pedidos recurrentes son:" + "\n" + orders + "." + "\n";
-                    orderResponse = response;
-
                 }
             }
             shouldEndSession = true;
@@ -564,11 +562,9 @@ function getRecurringOrders(intent, session, callback) {
 
         });
         return;
-
-
     }
 
-    if (orderResponse) {
+    /*if (orderResponse) {
         let order = extractValue('Order', intent, session);
         sessionAttributes = handleSessionAttributes(sessionAttributes, 'Order', order);
         if (order == null) {
@@ -581,7 +577,7 @@ function getRecurringOrders(intent, session, callback) {
 
     } else {
         shouldEndSession = true;
-    }
+    }*/
 
 
     sessionAttributes = handleSessionAttributes(sessionAttributes, 'PreviousIntent', intent.name);
