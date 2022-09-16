@@ -531,10 +531,10 @@ function getRecurringOrders(intent, session, callback) {
         speechOutput = "¿Cuál es tu número de identificación?";
         repromptText = "¿Cuál es tu número de identificación?";
     } else {
+        speechOutput = "papas fritas";
+        //  sendJSON = bodyBuildGet(businessPartner);
 
-        sendJSON = bodyBuildGet(businessPartner);
-
-        TELEGRAM.GetRecurringOrders(sendJSON, function(err, response) {
+        /* TELEGRAM.GetRecurringOrders(sendJSON, function(err, response) {
             if (err) {
                 console.error(err)
                 speechOutput = "Hubo un problema en la comunicación con Telegram. Porfavor intentelo de nuevo " + err.message
@@ -592,8 +592,15 @@ function getRecurringOrders(intent, session, callback) {
                 )
             );
 */
-        });
-        // return;
+        //});
+        shouldEndSession = true;
+        callback(sessionAttributes,
+            buildSpeechletResponse(
+                intent.name, speechOutput,
+                repromptText, shouldEndSession
+            )
+        );
+        return;
     }
 
 
