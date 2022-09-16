@@ -558,27 +558,33 @@ function getRecurringOrders(intent, session, callback) {
                     //let order = "Pedido gatos";
                     let order = extractValue('Order', intent, session);
                     sessionAttributes = handleSessionAttributes(sessionAttributes, 'Order', order);
-                    /*if (order === null) {
+
+                    if (order == null) {
+                        speechOutput = "¿Cuál desea elegir?";
                         repromptText = "¿Cuál desea elegir?";
                     } else {
-                        postOrderTelegram(orderResponse, businessPartner, order);
-                        shouldEndSession = true;
-                    }*/
-                    let sendJSON2 = {
-                        idNumber: businessPartner,
-                        descPedido: order
-                    }
-                    TELEGRAM.PostRecurringOrders(sendJSON2, function(err, response) {
-                        if (err) {
-                            console.error(err.message)
-                                //return "Hubo un problema en la comunicación con Telegram. Porfavor intentelo de nuevo " + err.message
+                        /*if (order === null) {
+                            repromptText = "¿Cuál desea elegir?";
                         } else {
-                            console.log(response.message)
-                                //return response.message;
-
+                            postOrderTelegram(orderResponse, businessPartner, order);
+                            shouldEndSession = true;
+                        }*/
+                        let sendJSON2 = {
+                            idNumber: businessPartner,
+                            descPedido: order
                         }
-                    });
-                    console.log("test: " + order);
+                        TELEGRAM.PostRecurringOrders(sendJSON2, function(err, response) {
+                            if (err) {
+                                console.error(err.message)
+                                    //return "Hubo un problema en la comunicación con Telegram. Porfavor intentelo de nuevo " + err.message
+                            } else {
+                                console.log(response.message)
+                                    //return response.message;
+
+                            }
+                        });
+                        console.log("test: " + order);
+                    }
                     /* if (orderResponse) {
                          postOrderTelegram(intent, session, callback, orderResponse, businessPartner);
                      }*/
