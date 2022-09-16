@@ -548,7 +548,7 @@ function getRecurringOrders(intent, session, callback) {
                     }
                     orders = orders.substring(0, orders.length - 2);
                     speechOutput = "Tus pedidos recurrentes son:" + "\n" + orders + "." + "\n";
-                    console.log("Antes: " + JSON.stringify(response));
+                    console.log("Antes:  " + JSON.stringify(response));
                     orderResponse = response;
 
                     if (orderResponse) {
