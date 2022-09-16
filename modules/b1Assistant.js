@@ -553,7 +553,6 @@ function getRecurringOrders(intent, session, callback) {
                     orderResponse = response;
                 }
             }
-            shouldEndSession = true;
             /* callback(sessionAttributes,
                  buildSpeechletResponse(
                      intent.name, speechOutput,
