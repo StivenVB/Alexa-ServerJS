@@ -563,6 +563,7 @@ async function recurringOrderProcess(intent, session, callback) {
                     } else {
                         let postBody = bodyBuildPost(orderData);
                         let postPrefix = 'Orders';
+                        console.log("test3: " + postBody)
                         let postRecurringOrder = await SERVICE_LAYER_CLIENT.serviceLayerPost(postPrefix, postBody);
                         console.log("test: " + postRecurringOrder.data);
                         if (postRecurringOrder.status === 201) {
