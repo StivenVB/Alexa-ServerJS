@@ -68,50 +68,55 @@ function onLaunch(launchRequest, session, callback) {
  */
 function onIntent(intentRequest, session, callback) {
 
-    console.log(intentRequest);
-    var intent = intentRequest.intent;
-    intentName = extractValue('PreviousIntent', intent, session);
+    try {
 
-    console.log('CURRENT Intent is ' + intent.name);
-    console.log('PREVIOUS intent was ' + intentName);
+        console.log(intentRequest);
+        var intent = intentRequest.intent;
+        intentName = extractValue('PreviousIntent', intent, session);
 
-    if ("AMAZON.StopIntent" === intent.name ||
-        "AMAZON.CancelIntent" === intent.name) {
-        handleSessionEndRequest(callback);
-    }
+        console.log('CURRENT Intent is ' + intent.name);
+        console.log('PREVIOUS intent was ' + intentName);
 
-    if (intentName === null) {
-        intentName = intent.name;
-    }
+        if ("AMAZON.StopIntent" === intent.name ||
+            "AMAZON.CancelIntent" === intent.name) {
+            handleSessionEndRequest(callback);
+        }
 
-    // Dispatch to your skill's intent handlers
-    switch (intentName) {
-        case "SayHello":
-            sayHello(intent, session, callback);
-            break;
+        if (intentName === null) {
+            intentName = intent.name;
+        }
 
-        case "Informacion_Ventas":
-            getSalesInfo(intent, session, callback);
-            break;
+        // Dispatch to your skill's intent handlers
+        switch (intentName) {
+            case "SayHello":
+                sayHello(intent, session, callback);
+                break;
 
-        case "Ventas_Anuales":
-            getSalesInfoYear(intent, session, callback);
-            break;
+            case "Informacion_Ventas":
+                getSalesInfo(intent, session, callback);
+                break;
 
-        case "MakePurchase":
-            postPurchase(intent, session, callback);
-            break;
+            case "Ventas_Anuales":
+                getSalesInfoYear(intent, session, callback);
+                break;
 
-        case "AMAZON.HelpIntent":
-            getWelcomeResponse(callback);
-            break;
+            case "MakePurchase":
+                postPurchase(intent, session, callback);
+                break;
 
-        case "MakeOrder":
-            recurringOrderProcess(intent, session, callback);
-            break;
+            case "AMAZON.HelpIntent":
+                getWelcomeResponse(callback);
+                break;
 
-        default:
-            throw "Invalid intent";
+            case "MakeOrder":
+                recurringOrderProcess(intent, session, callback);
+                break;
+
+            default:
+                throw "Invalid intent";
+        }
+    } catch (ex) {
+        console.log(ex.message);
     }
 }
 
