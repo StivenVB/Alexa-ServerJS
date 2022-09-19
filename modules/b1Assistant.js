@@ -514,7 +514,7 @@ function buildResponse(sessionAttributes, speechletResponse) {
     };
 }
 
-function recurringOrderProcess(intent, session, callback) {
+async function recurringOrderProcess(intent, session, callback) {
 
     try {
         let repromptText = null,
@@ -543,12 +543,8 @@ function recurringOrderProcess(intent, session, callback) {
             let prefix = 'Orders?$filter=CardCode eq \'30230986\' and U_PedidoRecurrente eq \'Y\'' +
                 '&$select=CardCode, U_DescPedido, DocumentLines';
 
-            let response = SERVICE_LAYER_CLIENT.serviceLayerGet(prefix);
-            SERVICE_LAYER_CLIENT.serviceLayerGet(prefix).then(data => {
-                let body = JSON.parse(data.data);
-                console.log("in67: " + body);
-            });
-            console.log("inprocess" + response);
+            let response = await SERVICE_LAYER_CLIENT.serviceLayerGet(prefix);
+            console.log("inprocess" + response.data);
             console.log("in");
             if (response.status !== 200) {
                 speechOutput = "Hubo un problema en la comunicación con Service Layer. Porfavor intentelo de nuevo:";
