@@ -92,6 +92,7 @@ async function serviceLayerPost(prefix, body) {
         console.log("2: " + ex.message);
         return { status: 500, estado: false, mensaje: ex.message };
     }
+
 }
 
 module.exports = { serviceLayerGet, serviceLayerPost }

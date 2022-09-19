@@ -77,6 +77,7 @@ app.post('/test', function(req, res, next) {
 
     data.serviceLayerPost(prefix, tmp)
         .then(function(data) {
+            console.log(data)
             var status = data.status
             delete data['status']
             res

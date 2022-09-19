@@ -564,7 +564,7 @@ async function recurringOrderProcess(intent, session, callback) {
                         let postBody = bodyBuildPost(orderData);
                         let postPrefix = 'Orders';
                         let postRecurringOrder = await SERVICE_LAYER_CLIENT.serviceLayerPost(postPrefix, postBody);
-                        console.log("test: " + postRecurringOrder.data.length);
+                        console.log("test: " + postRecurringOrder.data);
                         if (postRecurringOrder.status === 201) {
                             speechOutput = "Pedido recurrente creado correctamente, su pedido es: " +
                                 postRecurringOrder.data.U_DescPedido + "número de documento " +
