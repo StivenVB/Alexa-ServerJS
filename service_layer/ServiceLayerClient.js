@@ -64,7 +64,6 @@ async function serviceLayerPost(prefix, body) {
             return { status: 401, estado: false, mensaje: responseLogin.body.error.message.value, datos: null }
         }
 
-        console.log("testSL: " + JSON.stringify(body));
         let request = {
             method: 'POST',
             url: SERVICE_LAYER_CONFIG.URL + prefix,
@@ -82,7 +81,7 @@ async function serviceLayerPost(prefix, body) {
 
         let requestResponse = await REQUEST_PROMISE(request);
         let responseBody = requestResponse.body;
-        console.log("testSLBody: " + JSON.stringify(responseBody));
+
         if (requestResponse.statusCode === 201) {
             return { status: 201, estado: true, mensaje: 'Exitoso', data: responseBody };
         } else {
@@ -90,7 +89,6 @@ async function serviceLayerPost(prefix, body) {
         }
 
     } catch (ex) {
-        console.log("2: " + ex.message);
         return { status: 500, estado: false, mensaje: ex.message };
     }
 

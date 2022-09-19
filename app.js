@@ -62,7 +62,7 @@ app.get('/', function(req, res) {
 
 
 
-app.post('/test', function(req, res, next) {
+/*app.post('/test', function(req, res, next) {
     let tmp = {
         "CardCode": "30230986",
         "DocDueDate": "2022-09-19",
@@ -92,7 +92,7 @@ app.post('/test', function(req, res, next) {
                 .status(status)
                 .json(error)
         })
-})
+})*/
 
 
 app.listen(PORT, function() {

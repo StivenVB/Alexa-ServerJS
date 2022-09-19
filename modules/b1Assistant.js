@@ -568,11 +568,11 @@ async function recurringOrderProcess(intent, session, callback) {
                         console.log("test: " + postRecurringOrder.data);
                         if (postRecurringOrder.status === 201) {
                             speechOutput = "Pedido recurrente creado correctamente, su pedido es: " +
-                                postRecurringOrder.data.U_DescPedido + "número de documento " +
+                                recurringOrder + ", número de documento " +
                                 postRecurringOrder.data.DocNum + "\n";
 
-                            for (let i = 0; i < postRecurringOrder.data.DocumentLines; i++) {
-                                speechOutput += postRecurringOrder.data.DocumentLines[i].ItemName + " Cantida" +
+                            for (let i = 0; i < postRecurringOrder.data.DocumentLines.length; i++) {
+                                speechOutput += postRecurringOrder.data.DocumentLines[i].ItemName + " Cantidad" +
                                     postRecurringOrder.data.DocumentLines[i].Quantity + "\n";
                             }
 
