@@ -80,8 +80,10 @@ async function serviceLayerPost(prefix, body) {
         };
 
         let requestResponse = await REQUEST_PROMISE(request);
+        let responseBody = requestResponse.body;
+
         if (requestResponse.statusCode === 201) {
-            return { status: 201, estado: true, mensaje: 'Exitoso', data: requestResponse };
+            return { status: 201, estado: true, mensaje: 'Exitoso', data: responseBody };
         } else {
             return { status: 400, estado: false, mensaje: requestResponse };
         }

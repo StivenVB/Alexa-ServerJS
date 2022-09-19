@@ -564,16 +564,15 @@ async function recurringOrderProcess(intent, session, callback) {
                         let postBody = bodyBuildPost(orderData);
                         let postPrefix = 'Orders';
                         let postRecurringOrder = await SERVICE_LAYER_CLIENT.serviceLayerPost(postPrefix, postBody);
-                        postRecurringOrder = JSON.parse(JSON.stringify(postRecurringOrder));
-                        console.log("test: " + postRecurringOrder);
-                        if (postRecurringOrder.data.statusCode === 201) {
+                        console.log("test: " + postRecurringOrder.data.length);
+                        if (postRecurringOrder.status === 201) {
                             speechOutput = "Pedido recurrente creado correctamente, su pedido es: " +
-                                postRecurringOrder.data.body.U_DescPedido + "número de documento " +
-                                postRecurringOrder.data.body.DocNum + "\n";
+                                postRecurringOrder.data.U_DescPedido + "número de documento " +
+                                postRecurringOrder.data.DocNum + "\n";
 
-                            for (let i = 0; i < postRecurringOrder.data.body.DocumentLines; i++) {
-                                speechOutput += postRecurringOrder.data.body.DocumentLines[i].ItemName + " Cantida" +
-                                    postRecurringOrder.data.body.DocumentLines[i].Quantity + "\n";
+                            for (let i = 0; i < postRecurringOrder.data.DocumentLines; i++) {
+                                speechOutput += postRecurringOrder.data.DocumentLines[i].ItemName + " Cantida" +
+                                    postRecurringOrder.data.DocumentLines[i].Quantity + "\n";
                             }
 
                         } else {
