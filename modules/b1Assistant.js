@@ -521,7 +521,8 @@ async function recurringOrderProcess(intent, session, callback) {
             sessionAttributes = {},
             shouldEndSession = false,
             speechOutput = "",
-            orderData = false;
+            orderData = false,
+            index = 0;
 
         let recurringOrder = extractValue('Order', intent, session);
         // let orderConfirmation = extractValue('Process', intent, session);
@@ -552,9 +553,12 @@ async function recurringOrderProcess(intent, session, callback) {
                     speechOutput = "Lo siento, pero se presento un error o no existen pedidos recurrentes";
                 } else {
                     while (!orderData && index < response.data.length) {
+
                         if (recurringOrder.replace(/ /g, "").toUpperCase() === response.data[index].U_DescPedido.replace(/ /g, "").toUpperCase()) {
                             orderData = response.data[index];
                         }
+
+                        index++;
                     }
                     if (!orderData) {
                         speechOutput = "El pedido recurrente: " + recurringOrder + " no existe en SAP Business One";
