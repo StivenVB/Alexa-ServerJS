@@ -43,7 +43,8 @@ async function serviceLayerGet(prefix) {
         };
 
         let requestResponse = await REQUEST_PROMISE(request);
-        response = requestResponse.body;
+        let body = JSON.parse(requestResponse.body);
+        console.log("Client :" + body)
 
         if (requestResponse.statusCode === 200) {
             response = { status: 200, estado: true, mensaje: 'Exitoso', data: response };
