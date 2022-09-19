@@ -556,7 +556,8 @@ function recurringOrderProcess() {
 
                             if (postRecurringOrder.status === 201) {
                                 speechOutput = "Pedido recurrente creado correctamente, su pedido es: " +
-                                    postRecurringOrder.data.U_DescPedido + "\n";
+                                    postRecurringOrder.data.U_DescPedido + "número de documento " +
+                                    postRecurringOrder.data.DocNum + "\n";
 
                                 for (let i = 0; i < postRecurringOrder.data.DocumentLines; i++) {
                                     speechOutput += postRecurringOrder.data.DocumentLines[i].ItemName + " Cantida" +
