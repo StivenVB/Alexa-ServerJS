@@ -523,19 +523,21 @@ function recurringOrderProcess(intent, session, callback) {
             orderData = false;
 
         let recurringOrder = extractValue('Order', intent, session);
-        let orderConfirmation = extractValue('Process', intent, session);
+        // let orderConfirmation = extractValue('Process', intent, session);
 
         sessionAttributes = handleSessionAttributes(sessionAttributes, 'Order', recurringOrder);
-        sessionAttributes = handleSessionAttributes(sessionAttributes, 'Process', orderConfirmation);
+        //sessionAttributes = handleSessionAttributes(sessionAttributes, 'Process', orderConfirmation);
         console.log("order: " + recurringOrder);
         if (recurringOrder === null) {
             speechOutput = "¿Cuál es el pedido recurrente que deseas realizar?";
             repromptText = "¿Cuál es el pedido recurrente que deseas realizar?";
-        } else if (orderConfirmation === null) {
-            speechOutput = "¿Deseas confirmar el pedido recurrente: " + recurringOrder + "?";
-            repromptText = "¿Deseas confirmar el pedido recurrente: " + recurringOrder + "?";
-            console.log("in1")
-        } else {
+        }
+        /*else if (orderConfirmation === null) {
+                   speechOutput = "¿Deseas confirmar el pedido recurrente: " + recurringOrder + "?";
+                   repromptText = "¿Deseas confirmar el pedido recurrente: " + recurringOrder + "?";
+                   console.log("in1")
+               } */
+        else {
             console.log("inprocess");
             RECURRING_ORDER.GetAllRecurringOrders(function(err, response) {
                 console.log("in");
