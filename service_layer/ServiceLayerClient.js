@@ -82,11 +82,10 @@ async function serviceLayerPost(prefix, body) {
 
         let requestResponse = await REQUEST_PROMISE(request);
 
-        response = JSON.parse(requestResponse.body.asString());
         if (requestResponse.statusCode === 201) {
-            response = { status: 201, estado: true, mensaje: 'Exitoso', data: response.value };
+            response = { status: 201, estado: true, mensaje: 'Exitoso', data: requestResponse };
         } else {
-            response = { status: 400, estado: false, mensaje: response.body.error.message.value };
+            response = { status: 400, estado: false, mensaje: requestResponse };
         }
 
     } catch (ex) {

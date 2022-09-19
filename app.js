@@ -11,7 +11,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const b1Assistant = require('./modules/b1Assistant');
 var orders = require('./modules/RecurringOrder');
-var data = require('./modules/RecurringOrder');
+var data = require('./service_layer/ServiceLayerClient');
 
 const app = express();
 const PORT = process.env.PORT || 8089;
@@ -63,8 +63,8 @@ app.get('/', function(req, res) {
 
 
 
-app.get('/test', function(req, res, next) {
-    /*let tmp = {
+/*app.post('/test', function(req, res, next) {
+    let tmp = {
         "CardCode": "30230986",
         "DocDueDate": "2022-09-19",
         "BPL_IDAssignedToInvoice": 1,
@@ -72,12 +72,13 @@ app.get('/test', function(req, res, next) {
             "ItemCode": "01254811",
             "Quantity": 1
         }]
-    };*/
+    };
 
-    /*  let prefix = 'Orders?$filter=CardCode eq \'30230986\' and U_PedidoRecurrente eq \'Y\'' +
-          '&$select=CardCode, U_DescPedido, DocumentLines';*/
+    let prefix = 'Orders';
+      let prefix = 'Orders?$filter=CardCode eq \'30230986\' and U_PedidoRecurrente eq \'Y\'' +
+          '&$select=CardCode, U_DescPedido, DocumentLines';
 
-    data.getAllRecurringOrders()
+    data.serviceLayerPost(prefix, tmp)
         .then(function(data) {
             var status = data.status
             delete data['status']
@@ -93,7 +94,7 @@ app.get('/test', function(req, res, next) {
                 .status(status)
                 .json(error)
         })
-})
+})*/
 
 
 app.listen(PORT, function() {

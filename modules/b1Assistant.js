@@ -544,25 +544,24 @@ async function recurringOrderProcess(intent, session, callback) {
                 '&$select=CardCode, U_DescPedido, DocumentLines';
 
             let response = await SERVICE_LAYER_CLIENT.serviceLayerGet(prefix);
-            console.log("in: " + response.data.length);
+
             if (response.status !== 200) {
                 speechOutput = "Hubo un problema en la comunicación con Service Layer. Porfavor intentelo de nuevo:";
             } else {
-                console.log("length : " + response.data.length)
                 if (response.data.length === 0) {
                     speechOutput = "Lo siento, pero se presento un error o no existen pedidos recurrentes";
                 } else {
-                    console.log("response: " + response);
                     while (!orderData && index < response.data.length) {
-                        if (recurringOrder.replace(/ /g, "").toUpperCase() === reponse.data[index].U_DescPedido.replace(/ /g, "").toUpperCase()) {
-                            orderData = reponse.data[index];
+                        if (recurringOrder.replace(/ /g, "").toUpperCase() === response.data[index].U_DescPedido.replace(/ /g, "").toUpperCase()) {
+                            orderData = response.data[index];
                         }
                     }
                     if (!orderData) {
                         speechOutput = "El pedido recurrente: " + recurringOrder + " no existe en SAP Business One";
                     } else {
                         let postBody = bodyBuildPost(orderData);
-                        let postRecurringOrder = RECURRING_ORDER.postRecurringOrder(postBody);
+                        let postPrefix = 'Orders';
+                        let postRecurringOrder = await SERVICE_LAYER_CLIENT.serviceLayerPost(prefix, postBody);
 
                         if (postRecurringOrder.status === 201) {
                             speechOutput = "Pedido recurrente creado correctamente, su pedido es: " +
