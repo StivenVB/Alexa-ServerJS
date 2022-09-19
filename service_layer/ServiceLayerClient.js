@@ -45,7 +45,7 @@ async function serviceLayerGet(prefix) {
         let requestResponse = await REQUEST_PROMISE(request);
         response = requestResponse.body;
 
-        console.log("SL45: " + response.data);
+
         if (requestResponse.statusCode === 200) {
             response = { status: 200, estado: true, mensaje: 'Exitoso', data: response };
         } else {
@@ -55,6 +55,7 @@ async function serviceLayerGet(prefix) {
     } catch (ex) {
         response = { status: 500, estado: false, mensaje: ex.message };
     }
+    console.log("SL45: " + response.data);
     return response;
 }
 
