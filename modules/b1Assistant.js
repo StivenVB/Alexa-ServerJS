@@ -620,7 +620,7 @@ function bodyBuildPost(order) {
     let body = {
         CardCode: order.CardCode,
         BPL_IDAssignedToInvoice: 1,
-        DocDate: HELPERS.getServiceLayerDate(),
+        DocDueDate: HELPERS.getServiceLayerDate(),
         DocumentLines: lines
     };
 
