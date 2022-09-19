@@ -609,7 +609,7 @@ function bodyBuildPost(order) {
     console.log("TEMPORAL: " + JSON.stringify(order));
     let lines = [];
 
-    for (let i = 0; i < order.DocumentLines; i++) {
+    for (let i = 0; i < order.DocumentLines.length; i++) {
         lines.push({
             ItemCode: order.DocumentLines[i].ItemCode,
             ItemName: order.DocumentLines[i].ItemName,
