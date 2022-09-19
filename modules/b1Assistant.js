@@ -519,17 +519,15 @@ function recurringOrderProcess(intent, session, callback) {
         orderData = false;
 
     let recurringOrder = extractValue('Order', intent, session);
-    console.log("1: " + recurringOrder);
-    var orderConfirmation = extractValue('Process', intent, session);
-    console.log("2: " + orderConfirmation0);
+    let orderConfirmation = extractValue('Process', intent, session);
 
     sessionAttributes = handleSessionAttributes(sessionAttributes, 'Order', recurringOrder);
     sessionAttributes = handleSessionAttributes(sessionAttributes, 'Process', orderConfirmation);
 
-    if (recurringOrder == null) {
+    if (recurringOrder === null) {
         speechOutput = "¿Cuál es el pedido recurrente que deseas realizar?";
         repromptText = "¿Cuál es el pedido recurrente que deseas realizar?";
-    } else if (orderConfirmation == null) {
+    } else if (orderConfirmation === null) {
         speechOutput = "¿Deseas confirmar el pedido recurrente: " + recurringOrder + "?";
         repromptText = "¿Deseas confirmar el pedido recurrente: " + recurringOrder + "?";
     } else {
