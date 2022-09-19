@@ -531,6 +531,7 @@ function recurringOrderProcess(intent, session, callback) {
         speechOutput = "¿Deseas confirmar el pedido recurrente: " + recurringOrder + "?";
         repromptText = "¿Deseas confirmar el pedido recurrente: " + recurringOrder + "?";
     } else {
+        console.log("in");
         RECURRING_ORDER.GetAllRecurringOrders(function(err, response) {
             console.log("in");
             if (err) {
