@@ -58,50 +58,7 @@ app.get('/', function(req, res) {
 
 });
 
-/*app.get('/test', function(req, res, next) {
-    let cc = {
-        "idNumber": "802023637"
-    };
-    orders.getRecurringOrders(cc)
-        .then(function(data) {
-            var status = data.status
-            delete data['status']
-            res
-                .status(status)
-                .json(data)
-
-        })
-        .catch(function(error) {
-            var status = error.status
-            delete error['status']
-            res
-                .status(status)
-                .json(error)
-        })
-})
-
-app.post('/postOrder', function(req, res, next) {
-    let d = {
-        "idNumber": "1007232211",
-        "descPedido": "Pedido gatuno"
-    };
-    orders.postRecurringOrders(d)
-        .then(function(data) {
-            var status = data.status
-            delete data['status']
-            res
-                .status(status)
-                .json(data)
-
-        })
-        .catch(function(error) {
-            var status = error.status
-            delete error['status']
-            res
-                .status(status)
-                .json(error)
-        })
-})
+/*
 
 app.post('/test', function(req, res, next) {
     let tmp = {
