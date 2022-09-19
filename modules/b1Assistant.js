@@ -542,8 +542,9 @@ function recurringOrderProcess(intent, session, callback) {
 
             let prefix = 'Orders?$filter=CardCode eq \'30230986\' and U_PedidoRecurrente eq \'Y\'' +
                 '&$select=CardCode, U_DescPedido, DocumentLines';
+
             let response = SERVICE_LAYER_CLIENT.serviceLayerGet(prefix);
-            console.log("inprocess" + response.status);
+            console.log("inprocess" + response);
             console.log("in");
             if (response.status !== 200) {
                 speechOutput = "Hubo un problema en la comunicación con Service Layer. Porfavor intentelo de nuevo:";
