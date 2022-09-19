@@ -66,19 +66,19 @@
                 {
                     "name": "MakeOrder",
                     "slots": [{
-                            "name": "RecurringOrder",
+                            "name": "Order",
                             "type": "AMAZON.Language"
                         },
                         {
-                            "name": "OrderConfirmation",
+                            "name": "Process",
                             "type": "AMAZON.Language"
                         }
                     ],
                     "samples": [
                         "pedido recurrente",
                         "pedidos recurrentes",
-                        "{RecurringOrder}",
-                        "{OrderConfirmation}"
+                        "{Order}",
+                        "{Process}"
                     ]
                 },
                 {
