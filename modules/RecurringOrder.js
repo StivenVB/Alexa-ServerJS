@@ -1,20 +1,13 @@
 const SERVICE_LAYER_CLIENT = require('../service_layer/ServiceLayerClient');
 
 async function getAllRecurringOrders() {
-    let response;
-    try {
 
-        let prefix = 'Orders?$filter=CardCode eq \'30230986\' and U_PedidoRecurrente eq \'Y\'' +
-            '&$select=CardCode, U_DescPedido, DocumentLines';
+    let prefix = 'Orders?$filter=CardCode eq \'30230986\' and U_PedidoRecurrente eq \'Y\'' +
+        '&$select=CardCode, U_DescPedido, DocumentLines';
 
-        let orders = SERVICE_LAYER_CLIENT.serviceLayerGet(prefix);
-        response = orders;
+    let orders = SERVICE_LAYER_CLIENT.serviceLayerGet(prefix);
 
-    } catch (ex) {
-        console.log(ex.message);
-    }
-
-    return response;
+    return orders;
 }
 
 async function postRecurringOrder(postBody) {
