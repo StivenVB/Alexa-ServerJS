@@ -47,7 +47,7 @@ async function serviceLayerGet(prefix) {
 
         console.log("SL45: " + response.value);
         if (requestResponse.statusCode === 200) {
-            response = { status: 200, estado: true, mensaje: 'Exitoso', data: response.value };
+            response = { status: 200, estado: true, mensaje: 'Exitoso', data: response };
         } else {
             response = { status: 400, estado: false, mensaje: 'Petición fallida' };
         }
