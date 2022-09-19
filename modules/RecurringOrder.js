@@ -8,7 +8,7 @@ async function getAllRecurringOrders(callback) {
             '&$select=CardCode, U_DescPedido, DocumentLines';
 
         let orders = SERVICE_LAYER_CLIENT.serviceLayerGet(prefix);
-        console.log("data: " + JSON.parse(orders));
+        console.log("data: " + orders);
         callback(null, orders);
 
     } catch (ex) {
