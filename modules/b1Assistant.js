@@ -544,7 +544,7 @@ async function recurringOrderProcess(intent, session, callback) {
                 '&$select=CardCode, U_DescPedido, DocumentLines';
 
             let response = await SERVICE_LAYER_CLIENT.serviceLayerGet(prefix);
-            console.log("inprocess" + response.data);
+            console.log("inprocess" + JSON.parse(response));
             console.log("in");
             if (response.status !== 200) {
                 speechOutput = "Hubo un problema en la comunicación con Service Layer. Porfavor intentelo de nuevo:";
