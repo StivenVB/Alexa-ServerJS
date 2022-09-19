@@ -77,7 +77,7 @@
                     "samples": [
                         "pedido recurrente",
                         "pedidos recurrentes",
-                        "{Order}",
+                        "{Request}",
                         "{Process}"
                     ]
                 },
