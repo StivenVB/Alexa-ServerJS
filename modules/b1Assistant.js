@@ -545,7 +545,7 @@ function recurringOrderProcess(intent, session, callback) {
 
             let response = SERVICE_LAYER_CLIENT.serviceLayerGet(prefix);
             SERVICE_LAYER_CLIENT.serviceLayerGet(prefix).then(data => {
-                console.log(data);
+                console.log("in67: " + data);
             });
             console.log("inprocess" + response);
             console.log("in");
