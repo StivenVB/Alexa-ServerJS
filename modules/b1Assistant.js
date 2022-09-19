@@ -542,10 +542,10 @@ function recurringOrderProcess(intent, session, callback) {
             RECURRING_ORDER.GetAllRecurringOrders(function(err, response) {
                 console.log("in");
                 if (err) {
-                    speechOutput = "Hubo un problema en la comunicación con Service Layer. Porfavor intentelo de nuevo: " + +err.message;
+                    speechOutput = "Hubo un problema en la comunicación con Service Layer. Porfavor intentelo de nuevo: " + err.message;
                 } else {
 
-                    if (!response.data.length) {
+                    if (!response.data) {
                         speechOutput = "Lo siento, pero se presento un error o no existen pedidos recurrentes";
                     } else {
                         console.log("response: " + response);
