@@ -624,6 +624,7 @@ function bodyBuildPost(order) {
 
     let body = {
         CardCode: order.CardCode,
+        Comments: "Pedido creado desde Alexa",
         BPL_IDAssignedToInvoice: 1,
         DocDueDate: HELPERS.getServiceLayerDate(),
         DocumentLines: lines
