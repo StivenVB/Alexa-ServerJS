@@ -101,7 +101,37 @@ app.post('/postOrder', function(req, res, next) {
                 .status(status)
                 .json(error)
         })
+})
+
+app.post('/test', function(req, res, next) {
+    let tmp = {
+        "CardCode": "30230986",
+        "DocDueDate": "2022-09-19",
+        "BPL_IDAssignedToInvoice": 1,
+        "DocumentLines": [{
+            "ItemCode": "01254811",
+            "Quantity": 1
+        }]
+    };
+
+    orders.postRecurringOrder(tmp)
+        .then(function(data) {
+            var status = data.status
+            delete data['status']
+            res
+                .status(status)
+                .json(data)
+
+        })
+        .catch(function(error) {
+            var status = error.status || 500
+            delete error['status']
+            res
+                .status(status)
+                .json(error)
+        })
 })*/
+
 
 app.listen(PORT, function() {
     console.log('B1AssistantAlexa App listening to port ...' + PORT);

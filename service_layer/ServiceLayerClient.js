@@ -83,17 +83,19 @@ async function serviceLayerPost(prefix, body) {
         };
 
         let requestResponse = await REQUEST_PROMISE(request);
-        response = JSON.parse(requestResponse.body);
 
+        response = JSON.parse(JSON.stringify(requestResponse.body));
         if (requestResponse.statusCode === 201) {
             response = { status: 201, estado: true, mensaje: 'Exitoso', data: response };
         } else {
-            response = { status: 400, estado: false, mensaje: 'Petición fallida' };
+            response = { status: 400, estado: false, mensaje: response.body.error.message.value };
         }
 
     } catch (ex) {
+        console.log("2: " + ex.message);
         response = { status: 500, estado: false, mensaje: ex.message };
     }
+    console.log("response post: " + response)
     return response;
 }
 

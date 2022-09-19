@@ -18,14 +18,20 @@ async function getAllRecurringOrders() {
 }
 
 async function postRecurringOrder(postBody) {
+    console.log("in");
+    try {
 
-    let response = "";
+        let response = "";
 
-    let prefix = 'Orders';
+        let prefix = 'Orders';
 
-    let order = SERVICE_LAYER_CLIENT.serviceLayerPost(prefix, postBody);
+        let order = SERVICE_LAYER_CLIENT.serviceLayerPost(prefix, postBody);
+        console.log("3 " + order);
+        response = order;
 
-    response = order;
+    } catch (ex) {
+        console.log(ex.message);
+    }
 
     return response;
 }

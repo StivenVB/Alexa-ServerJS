@@ -3,12 +3,10 @@
  */
 
 // Module to perform Service Layer Calls
-const { post } = require("request");
 const B1SL = require("./Azure_b1ServiceLayer");
 
-const TELEGRAM = require("./Telegram");
 const RECURRING_ORDER = require("./RecurringOrder");
-const { PostRecurringOrders } = require("./Telegram");
+const HELPERS = require("../helpers/Helpers");
 
 exports.handler = function(event, context) {
     try {
@@ -757,6 +755,8 @@ function bodyBuildPost(order) {
 
     let body = {
         CardCode: order.CardCode,
+        BPL_IDAssignedToInvoice: 1,
+        DocDate: HELPERS.getServiceLayerDate(),
         DocumentLines: lines
     };
 
