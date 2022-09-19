@@ -519,7 +519,7 @@ function recurringOrderProcess() {
         orderData = false;
 
     let recurringOrder = extractValue('RecurringOrder', intent, session);
-    var orderConfirmation = extractValue('SalesYear', intent, session);
+    var orderConfirmation = extractValue('OrderConfirmation', intent, session);
 
     sessionAttributes = handleSessionAttributes(sessionAttributes, 'RecurringOrder', recurringOrder);
     sessionAttributes = handleSessionAttributes(sessionAttributes, 'OrderConfirmation', orderConfirmation);
