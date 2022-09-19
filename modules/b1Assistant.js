@@ -510,7 +510,7 @@ function buildResponse(sessionAttributes, speechletResponse) {
     };
 }
 
-function recurringOrderProcess() {
+function recurringOrderProcess(intent, session, callback) {
 
     let repromptText = null,
         sessionAttributes = {},
