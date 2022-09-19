@@ -55,7 +55,7 @@ async function serviceLayerGet(prefix) {
         response = { status: 500, estado: false, mensaje: ex.message };
     }
     console.log(response.data)
-    return JSON.stringify(response);
+    return response;
 }
 
 async function serviceLayerPost(prefix, body) {
