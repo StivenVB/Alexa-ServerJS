@@ -529,8 +529,8 @@ async function recurringOrderProcess(intent, session, callback) {
         //sessionAttributes = handleSessionAttributes(sessionAttributes, 'Process', orderConfirmation);
         console.log("order: " + recurringOrder);
         if (recurringOrder === null) {
-            speechOutput = "¿Cuál es el pedido recurrente que deseas realizar?";
-            repromptText = "¿Cuál es el pedido recurrente que deseas realizar?";
+            speechOutput = "¿Cuál es el pedido recurrente que deseas realizar? Escógelo precedido de la palabra pedido";
+            repromptText = "¿Cuál es el pedido recurrente que deseas realizar? Escógelo precedido de la palabra pedido";
         }
         /*else if (orderConfirmation === null) {
                    speechOutput = "¿Deseas confirmar el pedido recurrente: " + recurringOrder + "?";
@@ -567,14 +567,18 @@ async function recurringOrderProcess(intent, session, callback) {
                         let postRecurringOrder = await SERVICE_LAYER_CLIENT.serviceLayerPost(postPrefix, postBody);
 
                         if (postRecurringOrder.status === 201) {
+                            let orderLines = "";
                             speechOutput = "Pedido recurrente creado correctamente, su pedido es: " +
                                 recurringOrder + ", número de documento " +
                                 postRecurringOrder.data.DocNum + "\n";
 
                             for (let i = 0; i < postRecurringOrder.data.DocumentLines.length; i++) {
-                                speechOutput += postRecurringOrder.data.DocumentLines[i].ItemName + " Cantidad" +
-                                    postRecurringOrder.data.DocumentLines[i].Quantity + "\n";
+                                orderLines += postRecurringOrder.data.DocumentLines[i].ItemDescription + " Cantidad" +
+                                    postRecurringOrder.data.DocumentLines[i].Quantity + "," + "\n";
                             }
+
+                            orderLines = orderLines.substring(0, orderLines.length - 2);
+                            speechOutput += orderLines;
 
                         } else {
                             speechOutput = "Se presento un error creando su pedido recurrente";
