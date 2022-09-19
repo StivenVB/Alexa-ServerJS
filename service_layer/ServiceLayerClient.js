@@ -20,13 +20,12 @@ function serviceLayerLogin() {
 }
 
 async function serviceLayerGet(prefix) {
-    console.log("in")
-    var response = "";
+
     try {
         let responseLogin = await REQUEST_PROMISE(serviceLayerLogin());
 
         if (responseLogin.statusCode !== 200) {
-            response = { status: 401, estado: false, mensaje: responseLogin.body.error.message.value, datos: null }
+            return { status: 401, estado: false, mensaje: responseLogin.body.error.message.value, datos: null }
         }
 
         let request = {
