@@ -544,6 +544,9 @@ function recurringOrderProcess(intent, session, callback) {
                 '&$select=CardCode, U_DescPedido, DocumentLines';
 
             let response = SERVICE_LAYER_CLIENT.serviceLayerGet(prefix);
+            SERVICE_LAYER_CLIENT.serviceLayerGet(prefix).then(data => {
+                console.log(data);
+            });
             console.log("inprocess" + response);
             console.log("in");
             if (response.status !== 200) {
