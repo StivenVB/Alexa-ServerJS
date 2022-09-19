@@ -522,10 +522,10 @@ function recurringOrderProcess(intent, session, callback) {
             speechOutput = "",
             orderData = false;
 
-        let recurringOrder = extractValue('Order', intent, session);
+        let recurringOrder = extractValue('Request', intent, session);
         let orderConfirmation = extractValue('Process', intent, session);
 
-        sessionAttributes = handleSessionAttributes(sessionAttributes, 'Order', recurringOrder);
+        sessionAttributes = handleSessionAttributes(sessionAttributes, 'Request', recurringOrder);
         sessionAttributes = handleSessionAttributes(sessionAttributes, 'Process', orderConfirmation);
 
         if (recurringOrder === null) {
