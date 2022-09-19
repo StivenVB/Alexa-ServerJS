@@ -13,7 +13,7 @@ async function getAllRecurringOrders(callback) {
 
     } catch (ex) {
         console.log(ex.message);
-        callback(error);
+        callback(ex.message);
     }
 }
 
