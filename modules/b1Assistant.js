@@ -542,16 +542,16 @@ function recurringOrderProcess(intent, session, callback) {
             RECURRING_ORDER.GetAllRecurringOrders(function(err, response) {
                 console.log("in");
                 if (err) {
-                    speechOutput = "Hubo un problema en la comunicación con Service Layer. Porfavor intentelo de nuevo: " + err.message;
+                    speechOutput = "Hubo un problema en la comunicación con Service Layer. Porfavor intentelo de nuevo: " + err;
                 } else {
                     console.log("length : " + response.data.length)
                     if (response.data.length === 0) {
                         speechOutput = "Lo siento, pero se presento un error o no existen pedidos recurrentes";
                     } else {
                         console.log("response: " + response);
-                        while (!orderData && index < orderResponse.data.length) {
-                            if (recurringOrder.replace(/ /g, "").toUpperCase() === orderResponse.data[index].U_DescPedido.replace(/ /g, "").toUpperCase()) {
-                                orderData = orderResponse.data[index];
+                        while (!orderData && index < response.data.length) {
+                            if (recurringOrder.replace(/ /g, "").toUpperCase() === reponse.data[index].U_DescPedido.replace(/ /g, "").toUpperCase()) {
+                                orderData = reponse.data[index];
                             }
                         }
 
