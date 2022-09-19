@@ -21,7 +21,7 @@ function serviceLayerLogin() {
 
 async function serviceLayerGet(prefix) {
 
-    let response = "";
+    let response;
     try {
         let responseLogin = await REQUEST_PROMISE(serviceLayerLogin());
 
@@ -43,11 +43,11 @@ async function serviceLayerGet(prefix) {
         };
 
         let requestResponse = await REQUEST_PROMISE(request);
-        let body = JSON.parse(requestResponse.body);
+        response = JSON.parse(requestResponse.body);
         console.log("Client :" + body.value)
 
         if (requestResponse.statusCode === 200) {
-            response = { status: 200, estado: true, mensaje: 'Exitoso', data: response };
+            response = { status: 200, estado: true, mensaje: 'Exitoso', data: response.value };
         } else {
             response = { status: 400, estado: false, mensaje: 'Petición fallida' };
         }
