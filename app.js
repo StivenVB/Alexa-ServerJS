@@ -10,7 +10,7 @@ const express = require('express');
 //var https = require('https');
 const bodyParser = require('body-parser');
 const b1Assistant = require('./modules/b1Assistant');
-var orders = require('./modules/Telegram');
+var orders = require('./modules/RecurringOrder');
 
 const app = express();
 const PORT = process.env.PORT || 8089;
@@ -102,7 +102,6 @@ app.post('/postOrder', function(req, res, next) {
                 .json(error)
         })
 })*/
-
 
 app.listen(PORT, function() {
     console.log('B1AssistantAlexa App listening to port ...' + PORT);

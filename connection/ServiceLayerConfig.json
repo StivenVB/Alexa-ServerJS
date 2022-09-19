@@ -1,0 +1,9 @@
+{
+    "URL": "https://servicesunit0.abilitysap.com.co:50000/b1s/v1/",
+    "Credentials": {
+        "CompanyDB": "DEMOS_COMERCIALES_SAP10",
+        "UserName": "ABILITYSAP\\css-egranada",
+        "Password": "T*o6HoBibo6runUF+lsW",
+        "Language": "25"
+    }
+}

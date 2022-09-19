@@ -5,11 +5,11 @@
 // Module to perform Service Layer Calls
 const { post } = require("request");
 const B1SL = require("./Azure_b1ServiceLayer");
-const { PostRecurringOrders } = require("./Telegram");
 
 const TELEGRAM = require("./Telegram");
-//var orderResponse = null;
-//var businessPartner = null;
+const RECURRING_ORDER = require("./RecurringOrder");
+const { PostRecurringOrders } = require("./Telegram");
+
 exports.handler = function(event, context) {
     try {
         //console.log("event.session.application.applicationId=" + event.session.application.applicationId);
@@ -107,24 +107,7 @@ function onIntent(intentRequest, session, callback) {
             break;
 
         case "MakeOrder":
-            getRecurringOrders(intent, session, callback);
-            /* console.log("in" + businessPartner);
-            let res = {
-                "status": true,
-                "data": [{
-                        "odata.etag": "W/\"356A192B7913B04C54574D18C28D46E6395428AB\"",
-                        "U_DescPedido": "Pedido gatos"
-                    },
-                    {
-                        "odata.etag": "W/\"356A192B7913B04C54574D18C28D46E6395428AB\"",
-                        "U_DescPedido": "Pedido gatuno"
-                    }
-                ]
-            };
-
-            let bp = "1007232211"
-            postOrderTelegram(intent, session, callback, res, bp);
-*/
+            recurringOrderProcess(intent, session, callback);
             break;
 
         default:
@@ -527,6 +510,88 @@ function buildResponse(sessionAttributes, speechletResponse) {
     };
 }
 
+function recurringOrderProcess() {
+
+    let repromptText = null,
+        sessionAttributes = {},
+        shouldEndSession = false,
+        speechOutput = "",
+        orderData = false;
+
+    let recurringOrder = extractValue('RecurringOrder', intent, session);
+    var orderConfirmation = extractValue('SalesYear', intent, session);
+
+    sessionAttributes = handleSessionAttributes(sessionAttributes, 'RecurringOrder', recurringOrder);
+    sessionAttributes = handleSessionAttributes(sessionAttributes, 'OrderConfirmation', orderConfirmation);
+
+    if (recurringOrder == null) {
+        speechOutput = "¿Cuál es el pedido recurrente que deseas realizar?";
+        repromptText = "¿Cuál es el pedido recurrente que deseas realizar?";
+    } else if (orderConfirmation == null) {
+        speechOutput = "¿Deseas confirmar el pedido recurrente: " + recurringOrder;
+        repromptText = "¿Deseas confirmar el pedido recurrente: " + recurringOrder;
+    } else {
+        if (orderConfirmation.replace(/ /g, "").toUpperCase() === 'SI') {
+
+            RECURRING_ORDER.GetAllRecurringOrders(function(err, response) {
+                if (err) {
+                    speechOutput = "Hubo un problema en la comunicación con Service Layer. Porfavor intentelo de nuevo: " + +err.message;
+                } else {
+
+                    if (!response.data.length) {
+                        speechOutput = "Lo siento, pero se presento un error o no existen pedidos recurrentes";
+                    } else {
+
+                        while (!orderData && index < orderResponse.data.length) {
+                            if (recurringOrder.replace(/ /g, "").toUpperCase() === orderResponse.data[index].U_DescPedido.replace(/ /g, "").toUpperCase()) {
+                                orderData = orderResponse.data[index];
+                            }
+                        }
+
+                        if (!orderData) {
+                            speechOutput = "El pedido recurrente: " + recurringOrder + " no existe en SAP Business One";
+                        } else {
+                            let postBody = buildBuildPost(orderData);
+                            let postRecurringOrder = RECURRING_ORDER.postRecurringOrder(postBody);
+
+                            if (postRecurringOrder.status === 201) {
+                                speechOutput = "Pedido recurrente creado correctamente, su pedido es: " +
+                                    postRecurringOrder.data.U_DescPedido + "\n";
+
+                                for (let i = 0; i < postRecurringOrder.data.DocumentLines; i++) {
+                                    speechOutput += postRecurringOrder.data.DocumentLines[i].ItemName + " Cantida" +
+                                        postRecurringOrder.data.DocumentLines[i].Quantity + "\n";
+                                }
+
+                            } else {
+                                speechOutput = "Se presento un error creando su pedido recurrente";
+                            }
+                        }
+                    }
+                }
+            });
+        } else {
+            speechOutput = "Error de confirmación de pedido recurrente, por favor intentelo de nuevo";
+        }
+
+        shouldEndSession = true;
+
+        callback(sessionAttributes,
+            buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession)
+        );
+        return;
+    }
+
+    sessionAttributes = handleSessionAttributes(sessionAttributes, 'PreviousIntent', intent.name);
+
+    callback(sessionAttributes,
+        buildSpeechletResponse(
+            intent.name, speechOutput,
+            repromptText, shouldEndSession
+        )
+    );
+}
+
 function getRecurringOrders(intent, session, callback) {
 
     let repromptText = null,
@@ -581,8 +646,6 @@ function getRecurringOrders(intent, session, callback) {
         });
         return;
     }
-
-
 
     sessionAttributes = handleSessionAttributes(sessionAttributes, 'PreviousIntent', intent.name);
 
@@ -671,11 +734,21 @@ function bodyBuildGet(businessPartner) {
     return body;
 }
 
-function bodyBuildPost(businessPartner, order) {
+function bodyBuildPost(order) {
+
+    let lines = [];
+
+    for (let i = 0; i < order.DocumentLines; i++) {
+        lines.push({
+            ItemCode: order.DocumentLines[i].ItemCode,
+            ItemName: order.DocumentLines[i].ItemName,
+            Quantity: order.DocumentLines[i].Quantity
+        });
+    }
 
     let body = {
-        idNumber: businessPartner,
-        descPedido: order
+        CardCode: order.CardCode,
+        DocumentLines: lines
     };
 
     return body;
