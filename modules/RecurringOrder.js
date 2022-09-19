@@ -31,8 +31,8 @@ async function postRecurringOrder(postBody) {
 }
 
 module.exports = {
-    GetAllRecurringOrders: function(identification, callback) {
-        return (getAllRecurringOrders(identification, callback))
+    GetAllRecurringOrders: function(callback) {
+        return (getAllRecurringOrders(callback))
     },
     postRecurringOrder
 }
