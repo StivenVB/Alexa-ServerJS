@@ -559,7 +559,7 @@ async function recurringOrderProcess(intent, session, callback) {
                         index++;
                     }
                     if (!orderData) {
-                        speechOutput = "El pedido recurrente: " + recurringOrder + " no existe en SAP Business One";
+                        speechOutput = "El pedido recurrente: " + recurringOrder + ", no existe en SAP Business One";
                     } else {
 
                         let postBody = bodyBuildPost(orderData);
