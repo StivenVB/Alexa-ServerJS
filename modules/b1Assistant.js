@@ -531,57 +531,56 @@ function recurringOrderProcess(intent, session, callback) {
         speechOutput = "¿Deseas confirmar el pedido recurrente: " + recurringOrder + "?";
         repromptText = "¿Deseas confirmar el pedido recurrente: " + recurringOrder + "?";
     } else {
-        if (orderConfirmation.replace(/ /g, "").toUpperCase() === 'SI') {
+        RECURRING_ORDER.GetAllRecurringOrders(function(err, response) {
+            if (err) {
+                speechOutput = "Hubo un problema en la comunicación con Service Layer. Porfavor intentelo de nuevo: " + +err.message;
+            } else {
 
-            RECURRING_ORDER.GetAllRecurringOrders(function(err, response) {
-                if (err) {
-                    speechOutput = "Hubo un problema en la comunicación con Service Layer. Porfavor intentelo de nuevo: " + +err.message;
+                if (!response.data.length) {
+                    speechOutput = "Lo siento, pero se presento un error o no existen pedidos recurrentes";
                 } else {
 
-                    if (!response.data.length) {
-                        speechOutput = "Lo siento, pero se presento un error o no existen pedidos recurrentes";
-                    } else {
-
-                        while (!orderData && index < orderResponse.data.length) {
-                            if (recurringOrder.replace(/ /g, "").toUpperCase() === orderResponse.data[index].U_DescPedido.replace(/ /g, "").toUpperCase()) {
-                                orderData = orderResponse.data[index];
-                            }
+                    while (!orderData && index < orderResponse.data.length) {
+                        if (recurringOrder.replace(/ /g, "").toUpperCase() === orderResponse.data[index].U_DescPedido.replace(/ /g, "").toUpperCase()) {
+                            orderData = orderResponse.data[index];
                         }
+                    }
 
-                        if (!orderData) {
-                            speechOutput = "El pedido recurrente: " + recurringOrder + " no existe en SAP Business One";
-                        } else {
-                            let postBody = buildBuildPost(orderData);
-                            let postRecurringOrder = RECURRING_ORDER.postRecurringOrder(postBody);
+                    if (!orderData) {
+                        speechOutput = "El pedido recurrente: " + recurringOrder + " no existe en SAP Business One";
+                    } else {
+                        let postBody = buildBuildPost(orderData);
+                        let postRecurringOrder = RECURRING_ORDER.postRecurringOrder(postBody);
 
-                            if (postRecurringOrder.status === 201) {
-                                speechOutput = "Pedido recurrente creado correctamente, su pedido es: " +
-                                    postRecurringOrder.data.U_DescPedido + "número de documento " +
-                                    postRecurringOrder.data.DocNum + "\n";
+                        if (postRecurringOrder.status === 201) {
+                            speechOutput = "Pedido recurrente creado correctamente, su pedido es: " +
+                                postRecurringOrder.data.U_DescPedido + "número de documento " +
+                                postRecurringOrder.data.DocNum + "\n";
 
-                                for (let i = 0; i < postRecurringOrder.data.DocumentLines; i++) {
-                                    speechOutput += postRecurringOrder.data.DocumentLines[i].ItemName + " Cantida" +
-                                        postRecurringOrder.data.DocumentLines[i].Quantity + "\n";
-                                }
-
-                            } else {
-                                speechOutput = "Se presento un error creando su pedido recurrente";
+                            for (let i = 0; i < postRecurringOrder.data.DocumentLines; i++) {
+                                speechOutput += postRecurringOrder.data.DocumentLines[i].ItemName + " Cantida" +
+                                    postRecurringOrder.data.DocumentLines[i].Quantity + "\n";
                             }
+
+                        } else {
+                            speechOutput = "Se presento un error creando su pedido recurrente";
                         }
                     }
                 }
-            });
-        } else {
-            speechOutput = "Error de confirmación de pedido recurrente, por favor intentelo de nuevo";
-        }
+            }
 
-        shouldEndSession = true;
 
-        callback(sessionAttributes,
-            buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession)
-        );
+            shouldEndSession = true;
+
+            callback(sessionAttributes,
+                buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession)
+            );
+        });
+
         return;
     }
+
+
 
     sessionAttributes = handleSessionAttributes(sessionAttributes, 'PreviousIntent', intent.name);
 

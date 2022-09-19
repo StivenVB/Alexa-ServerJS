@@ -71,7 +71,7 @@
                         },
                         {
                             "name": "Process",
-                            "type": "AMAZON.Language"
+                            "type": "AMAZON.YesIntent"
                         }
                     ],
                     "samples": [
