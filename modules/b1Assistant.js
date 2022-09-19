@@ -545,11 +545,11 @@ function recurringOrderProcess(intent, session, callback) {
                     speechOutput = "Hubo un problema en la comunicación con Service Layer. Porfavor intentelo de nuevo: " + err.message;
                 } else {
 
-                    if (response.data.length === 0) {
+                    if (response.data.value.length === 0) {
                         speechOutput = "Lo siento, pero se presento un error o no existen pedidos recurrentes";
                     } else {
                         console.log("response: " + response);
-                        while (!orderData && index < orderResponse.data.length) {
+                        while (!orderData && index < orderResponse.data.value.length) {
                             if (recurringOrder.replace(/ /g, "").toUpperCase() === orderResponse.data[index].U_DescPedido.replace(/ /g, "").toUpperCase()) {
                                 orderData = orderResponse.data[index];
                             }
