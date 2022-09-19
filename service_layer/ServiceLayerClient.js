@@ -43,10 +43,10 @@ async function serviceLayerGet(prefix) {
         };
 
         let requestResponse = await REQUEST_PROMISE(request);
-        response = JSON.parse(requestResponse.body);
+        body = JSON.parse(requestResponse.body);
 
         if (requestResponse.statusCode === 200) {
-            response = { status: 200, estado: true, mensaje: 'Exitoso', data: response.value };
+            response = { status: 200, estado: true, mensaje: 'Exitoso', data: body.value };
         } else {
             response = { status: 400, estado: false, mensaje: 'Petición fallida' };
         }
@@ -54,7 +54,7 @@ async function serviceLayerGet(prefix) {
     } catch (ex) {
         response = { status: 500, estado: false, mensaje: ex.message };
     }
-
+    console.log(response.data)
     return response;
 }
 

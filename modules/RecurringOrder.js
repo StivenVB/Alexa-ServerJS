@@ -6,7 +6,7 @@ async function getAllRecurringOrders() {
         '&$select=CardCode, U_DescPedido, DocumentLines';
 
     let orders = SERVICE_LAYER_CLIENT.serviceLayerGet(prefix);
-    console.log("data1: " + orders)
+    console.log("data1: " + orders.data)
     return orders;
 }
 
@@ -19,7 +19,7 @@ async function postRecurringOrder(postBody) {
         let prefix = 'Orders';
 
         let order = SERVICE_LAYER_CLIENT.serviceLayerPost(prefix, postBody);
-        console.log("3 " + order);
+        console.log("3 " + order.data);
         response = order;
 
     } catch (ex) {

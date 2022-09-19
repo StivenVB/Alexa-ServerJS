@@ -11,6 +11,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const b1Assistant = require('./modules/b1Assistant');
 var orders = require('./modules/RecurringOrder');
+var data = require('./modules/RecurringOrder');
 
 const app = express();
 const PORT = process.env.PORT || 8089;
@@ -73,10 +74,10 @@ app.get('/test', function(req, res, next) {
         }]
     };*/
 
-    let prefix = 'Orders?$filter=CardCode eq \'30230986\' and U_PedidoRecurrente eq \'Y\'' +
-        '&$select=CardCode, U_DescPedido, DocumentLines';
+    /*  let prefix = 'Orders?$filter=CardCode eq \'30230986\' and U_PedidoRecurrente eq \'Y\'' +
+          '&$select=CardCode, U_DescPedido, DocumentLines';*/
 
-    SL.serviceLayerGet(prefix)
+    data.getAllRecurringOrders()
         .then(function(data) {
             var status = data.status
             delete data['status']

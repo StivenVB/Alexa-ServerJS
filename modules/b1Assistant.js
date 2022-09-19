@@ -6,6 +6,7 @@
 const B1SL = require("./Azure_b1ServiceLayer");
 
 const RECURRING_ORDER = require("./RecurringOrder");
+const SERVICE_LAYER_CLIENT = require("../service_layer/ServiceLayerClient");
 const HELPERS = require("../helpers/Helpers");
 
 exports.handler = function(event, context) {
@@ -539,7 +540,9 @@ function recurringOrderProcess(intent, session, callback) {
                } */
         else {
 
-            let response = RECURRING_ORDER.getAllRecurringOrders();
+            let prefix = 'Orders?$filter=CardCode eq \'30230986\' and U_PedidoRecurrente eq \'Y\'' +
+                '&$select=CardCode, U_DescPedido, DocumentLines';
+            let response = SERVICE_LAYER_CLIENT.serviceLayerGet(prefix);
             console.log("inprocess" + response.status);
             console.log("in");
             if (response.status !== 200) {
