@@ -551,7 +551,7 @@ function recurringOrderProcess(intent, session, callback) {
                     if (!orderData) {
                         speechOutput = "El pedido recurrente: " + recurringOrder + " no existe en SAP Business One";
                     } else {
-                        let postBody = buildBuildPost(orderData);
+                        let postBody = bodyBuildPost(orderData);
                         let postRecurringOrder = RECURRING_ORDER.postRecurringOrder(postBody);
 
                         if (postRecurringOrder.status === 201) {
@@ -594,7 +594,7 @@ function recurringOrderProcess(intent, session, callback) {
     );
 }
 
-function getRecurringOrders(intent, session, callback) {
+/*function getRecurringOrders(intent, session, callback) {
 
     let repromptText = null,
         sessionAttributes = {},
@@ -734,7 +734,7 @@ function bodyBuildGet(businessPartner) {
     };
 
     return body;
-}
+}*/
 
 function bodyBuildPost(order) {
 
