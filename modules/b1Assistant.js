@@ -539,7 +539,7 @@ function recurringOrderProcess(intent, session, callback) {
                } */
         else {
             console.log("inprocess");
-            let response = RECURRING_ORDER.GetAllRecurringOrders();
+            let response = RECURRING_ORDER.getAllRecurringOrders();
 
             console.log("in");
             if (response.status !== 200) {
