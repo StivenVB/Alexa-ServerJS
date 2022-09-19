@@ -21,7 +21,7 @@ function serviceLayerLogin() {
 
 async function serviceLayerGet(prefix) {
     console.log("in")
-    let response;
+    var response = "";
     try {
         let responseLogin = await REQUEST_PROMISE(serviceLayerLogin());
 
