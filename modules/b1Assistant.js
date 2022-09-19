@@ -561,11 +561,11 @@ async function recurringOrderProcess(intent, session, callback) {
                     if (!orderData) {
                         speechOutput = "El pedido recurrente: " + recurringOrder + " no existe en SAP Business One";
                     } else {
+
                         let postBody = bodyBuildPost(orderData);
                         let postPrefix = 'Orders';
-                        console.log("test3: " + postBody)
                         let postRecurringOrder = await SERVICE_LAYER_CLIENT.serviceLayerPost(postPrefix, postBody);
-                        console.log("test: " + postRecurringOrder.data);
+
                         if (postRecurringOrder.status === 201) {
                             speechOutput = "Pedido recurrente creado correctamente, su pedido es: " +
                                 recurringOrder + ", número de documento " +
