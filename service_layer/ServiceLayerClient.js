@@ -57,12 +57,11 @@ async function serviceLayerGet(prefix) {
 
 async function serviceLayerPost(prefix, body) {
 
-    let response = "";
     try {
         let responseLogin = await REQUEST_PROMISE(serviceLayerLogin());
 
         if (responseLogin.statusCode !== 200) {
-            response = { status: 401, estado: false, mensaje: responseLogin.body.error.message.value, datos: null }
+            return { status: 401, estado: false, mensaje: responseLogin.body.error.message.value, datos: null }
         }
 
         let request = {
@@ -81,18 +80,16 @@ async function serviceLayerPost(prefix, body) {
         };
 
         let requestResponse = await REQUEST_PROMISE(request);
-
         if (requestResponse.statusCode === 201) {
-            response = { status: 201, estado: true, mensaje: 'Exitoso', data: requestResponse };
+            return { status: 201, estado: true, mensaje: 'Exitoso', data: requestResponse };
         } else {
-            response = { status: 400, estado: false, mensaje: requestResponse };
+            return { status: 400, estado: false, mensaje: requestResponse };
         }
 
     } catch (ex) {
         console.log("2: " + ex.message);
-        response = { status: 500, estado: false, mensaje: ex.message };
+        return { status: 500, estado: false, mensaje: ex.message };
     }
-    return response;
 }
 
 module.exports = { serviceLayerGet, serviceLayerPost }

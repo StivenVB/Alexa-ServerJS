@@ -10,7 +10,6 @@ const express = require('express');
 //var https = require('https');
 const bodyParser = require('body-parser');
 const b1Assistant = require('./modules/b1Assistant');
-var orders = require('./modules/RecurringOrder');
 var data = require('./service_layer/ServiceLayerClient');
 
 const app = express();
@@ -63,7 +62,7 @@ app.get('/', function(req, res) {
 
 
 
-/*app.post('/test', function(req, res, next) {
+app.post('/test', function(req, res, next) {
     let tmp = {
         "CardCode": "30230986",
         "DocDueDate": "2022-09-19",
@@ -75,8 +74,6 @@ app.get('/', function(req, res) {
     };
 
     let prefix = 'Orders';
-      let prefix = 'Orders?$filter=CardCode eq \'30230986\' and U_PedidoRecurrente eq \'Y\'' +
-          '&$select=CardCode, U_DescPedido, DocumentLines';
 
     data.serviceLayerPost(prefix, tmp)
         .then(function(data) {
@@ -94,7 +91,7 @@ app.get('/', function(req, res) {
                 .status(status)
                 .json(error)
         })
-})*/
+})
 
 
 app.listen(PORT, function() {

@@ -4,8 +4,6 @@
 
 // Module to perform Service Layer Calls
 const B1SL = require("./Azure_b1ServiceLayer");
-
-const RECURRING_ORDER = require("./RecurringOrder");
 const SERVICE_LAYER_CLIENT = require("../service_layer/ServiceLayerClient");
 const HELPERS = require("../helpers/Helpers");
 
@@ -566,15 +564,15 @@ async function recurringOrderProcess(intent, session, callback) {
                         let postBody = bodyBuildPost(orderData);
                         let postPrefix = 'Orders';
                         let postRecurringOrder = await SERVICE_LAYER_CLIENT.serviceLayerPost(postPrefix, postBody);
-                        console.log("postRecurringOrder: " + postRecurringOrder);
-                        if (postRecurringOrder.status === 201) {
+                        console.log("postRecurringOrder: " + postRecurringOrder.data.statusCode);
+                        if (postRecurringOrder.data.statusCode === 201) {
                             speechOutput = "Pedido recurrente creado correctamente, su pedido es: " +
-                                postRecurringOrder.data.U_DescPedido + "número de documento " +
-                                postRecurringOrder.data.DocNum + "\n";
+                                postRecurringOrder.data.body.U_DescPedido + "número de documento " +
+                                postRecurringOrder.data.body.DocNum + "\n";
 
-                            for (let i = 0; i < postRecurringOrder.data.DocumentLines; i++) {
-                                speechOutput += postRecurringOrder.data.DocumentLines[i].ItemName + " Cantida" +
-                                    postRecurringOrder.data.DocumentLines[i].Quantity + "\n";
+                            for (let i = 0; i < postRecurringOrder.data.body.DocumentLines; i++) {
+                                speechOutput += postRecurringOrder.data.body.DocumentLines[i].ItemName + " Cantida" +
+                                    postRecurringOrder.data.body.DocumentLines[i].Quantity + "\n";
                             }
 
                         } else {
