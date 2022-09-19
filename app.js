@@ -15,6 +15,8 @@ var orders = require('./modules/RecurringOrder');
 const app = express();
 const PORT = process.env.PORT || 8089;
 
+const SL = require('./service_layer/ServiceLayerClient')
+
 /*https.createServer({
     cert: fs.readFileSync('server.crt'),
     key: fs.readFileSync('server.key')
@@ -58,10 +60,10 @@ app.get('/', function(req, res) {
 
 });
 
-/*
 
-app.post('/test', function(req, res, next) {
-    let tmp = {
+
+app.get('/test', function(req, res, next) {
+    /*let tmp = {
         "CardCode": "30230986",
         "DocDueDate": "2022-09-19",
         "BPL_IDAssignedToInvoice": 1,
@@ -69,9 +71,12 @@ app.post('/test', function(req, res, next) {
             "ItemCode": "01254811",
             "Quantity": 1
         }]
-    };
+    };*/
 
-    orders.postRecurringOrder(tmp)
+    let prefix = 'Orders?$filter=CardCode eq \'30230986\' and U_PedidoRecurrente eq \'Y\'' +
+        '&$select=CardCode, U_DescPedido, DocumentLines';
+
+    SL.serviceLayerGet(prefix)
         .then(function(data) {
             var status = data.status
             delete data['status']
@@ -87,7 +92,7 @@ app.post('/test', function(req, res, next) {
                 .status(status)
                 .json(error)
         })
-})*/
+})
 
 
 app.listen(PORT, function() {

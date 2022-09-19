@@ -554,7 +554,6 @@ function recurringOrderProcess(intent, session, callback) {
                                 orderData = reponse.data[index];
                             }
                         }
-
                         if (!orderData) {
                             speechOutput = "El pedido recurrente: " + recurringOrder + " no existe en SAP Business One";
                         } else {

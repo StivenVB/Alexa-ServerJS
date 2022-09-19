@@ -20,7 +20,7 @@ function serviceLayerLogin() {
 }
 
 async function serviceLayerGet(prefix) {
-
+    console.log("in")
     let response;
     try {
         let responseLogin = await REQUEST_PROMISE(serviceLayerLogin());
@@ -55,7 +55,6 @@ async function serviceLayerGet(prefix) {
         response = { status: 500, estado: false, mensaje: ex.message };
     }
 
-    console.log("response get: " + JSON.stringify(response))
     return response;
 }
 
