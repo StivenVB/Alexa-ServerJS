@@ -517,87 +517,88 @@ function buildResponse(sessionAttributes, speechletResponse) {
 
 function recurringOrderProcess(intent, session, callback) {
 
-    let repromptText = null,
-        sessionAttributes = {},
-        shouldEndSession = false,
-        speechOutput = "",
-        orderData = false;
+    try {
+        let repromptText = null,
+            sessionAttributes = {},
+            shouldEndSession = false,
+            speechOutput = "",
+            orderData = false;
 
-    let recurringOrder = extractValue('Order', intent, session);
-    let orderConfirmation = extractValue('Process', intent, session);
+        let recurringOrder = extractValue('Order', intent, session);
+        let orderConfirmation = extractValue('Process', intent, session);
 
-    sessionAttributes = handleSessionAttributes(sessionAttributes, 'Order', recurringOrder);
-    sessionAttributes = handleSessionAttributes(sessionAttributes, 'Process', orderConfirmation);
+        sessionAttributes = handleSessionAttributes(sessionAttributes, 'Order', recurringOrder);
+        sessionAttributes = handleSessionAttributes(sessionAttributes, 'Process', orderConfirmation);
 
-    if (recurringOrder === null) {
-        speechOutput = "¿Cuál es el pedido recurrente que deseas realizar?";
-        repromptText = "¿Cuál es el pedido recurrente que deseas realizar?";
-    } else if (orderConfirmation === null) {
-        speechOutput = "¿Deseas confirmar el pedido recurrente: " + recurringOrder + "?";
-        repromptText = "¿Deseas confirmar el pedido recurrente: " + recurringOrder + "?";
-        console.log("in1")
-    } else {
-        console.log("in");
-        RECURRING_ORDER.GetAllRecurringOrders(function(err, response) {
+        if (recurringOrder === null) {
+            speechOutput = "¿Cuál es el pedido recurrente que deseas realizar?";
+            repromptText = "¿Cuál es el pedido recurrente que deseas realizar?";
+        } else if (orderConfirmation === null) {
+            speechOutput = "¿Deseas confirmar el pedido recurrente: " + recurringOrder + "?";
+            repromptText = "¿Deseas confirmar el pedido recurrente: " + recurringOrder + "?";
+            console.log("in1")
+        } else {
             console.log("in");
-            if (err) {
-                speechOutput = "Hubo un problema en la comunicación con Service Layer. Porfavor intentelo de nuevo: " + +err.message;
-            } else {
-
-                if (!response.data.length) {
-                    speechOutput = "Lo siento, pero se presento un error o no existen pedidos recurrentes";
+            RECURRING_ORDER.GetAllRecurringOrders(function(err, response) {
+                console.log("in");
+                if (err) {
+                    speechOutput = "Hubo un problema en la comunicación con Service Layer. Porfavor intentelo de nuevo: " + +err.message;
                 } else {
-                    console.log("response: " + response);
-                    while (!orderData && index < orderResponse.data.length) {
-                        if (recurringOrder.replace(/ /g, "").toUpperCase() === orderResponse.data[index].U_DescPedido.replace(/ /g, "").toUpperCase()) {
-                            orderData = orderResponse.data[index];
-                        }
-                    }
 
-                    if (!orderData) {
-                        speechOutput = "El pedido recurrente: " + recurringOrder + " no existe en SAP Business One";
+                    if (!response.data.length) {
+                        speechOutput = "Lo siento, pero se presento un error o no existen pedidos recurrentes";
                     } else {
-                        let postBody = bodyBuildPost(orderData);
-                        let postRecurringOrder = RECURRING_ORDER.postRecurringOrder(postBody);
-
-                        if (postRecurringOrder.status === 201) {
-                            speechOutput = "Pedido recurrente creado correctamente, su pedido es: " +
-                                postRecurringOrder.data.U_DescPedido + "número de documento " +
-                                postRecurringOrder.data.DocNum + "\n";
-
-                            for (let i = 0; i < postRecurringOrder.data.DocumentLines; i++) {
-                                speechOutput += postRecurringOrder.data.DocumentLines[i].ItemName + " Cantida" +
-                                    postRecurringOrder.data.DocumentLines[i].Quantity + "\n";
+                        console.log("response: " + response);
+                        while (!orderData && index < orderResponse.data.length) {
+                            if (recurringOrder.replace(/ /g, "").toUpperCase() === orderResponse.data[index].U_DescPedido.replace(/ /g, "").toUpperCase()) {
+                                orderData = orderResponse.data[index];
                             }
+                        }
 
+                        if (!orderData) {
+                            speechOutput = "El pedido recurrente: " + recurringOrder + " no existe en SAP Business One";
                         } else {
-                            speechOutput = "Se presento un error creando su pedido recurrente";
+                            let postBody = bodyBuildPost(orderData);
+                            let postRecurringOrder = RECURRING_ORDER.postRecurringOrder(postBody);
+
+                            if (postRecurringOrder.status === 201) {
+                                speechOutput = "Pedido recurrente creado correctamente, su pedido es: " +
+                                    postRecurringOrder.data.U_DescPedido + "número de documento " +
+                                    postRecurringOrder.data.DocNum + "\n";
+
+                                for (let i = 0; i < postRecurringOrder.data.DocumentLines; i++) {
+                                    speechOutput += postRecurringOrder.data.DocumentLines[i].ItemName + " Cantida" +
+                                        postRecurringOrder.data.DocumentLines[i].Quantity + "\n";
+                                }
+
+                            } else {
+                                speechOutput = "Se presento un error creando su pedido recurrente";
+                            }
                         }
                     }
                 }
-            }
 
 
-            shouldEndSession = true;
+                shouldEndSession = true;
 
-            callback(sessionAttributes,
-                buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession)
-            );
-        });
+                callback(sessionAttributes,
+                    buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession)
+                );
+            });
 
-        return;
+            return;
+        }
+        sessionAttributes = handleSessionAttributes(sessionAttributes, 'PreviousIntent', intent.name);
+
+        callback(sessionAttributes,
+            buildSpeechletResponse(
+                intent.name, speechOutput,
+                repromptText, shouldEndSession
+            )
+        );
+    } catch (ex) {
+        console.log(ex.message);
     }
-
-
-
-    sessionAttributes = handleSessionAttributes(sessionAttributes, 'PreviousIntent', intent.name);
-
-    callback(sessionAttributes,
-        buildSpeechletResponse(
-            intent.name, speechOutput,
-            repromptText, shouldEndSession
-        )
-    );
 }
 
 /*function getRecurringOrders(intent, session, callback) {
