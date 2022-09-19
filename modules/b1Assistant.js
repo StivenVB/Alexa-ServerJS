@@ -572,8 +572,10 @@ async function recurringOrderProcess(intent, session, callback) {
                                 recurringOrder + ", número de documento " +
                                 postRecurringOrder.data.DocNum + "\n";
 
+                            speechOutput += "Adquiridos: " + "\n";
+
                             for (let i = 0; i < postRecurringOrder.data.DocumentLines.length; i++) {
-                                orderLines += postRecurringOrder.data.DocumentLines[i].ItemDescription + " Cantidad" +
+                                orderLines += postRecurringOrder.data.DocumentLines[i].ItemDescription + " Cantidad " +
                                     postRecurringOrder.data.DocumentLines[i].Quantity + "," + "\n";
                             }
 
