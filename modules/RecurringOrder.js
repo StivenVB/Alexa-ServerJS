@@ -1,20 +1,20 @@
 const SERVICE_LAYER_CLIENT = require('../service_layer/ServiceLayerClient');
 
-async function getAllRecurringOrders(callback) {
-
+async function getAllRecurringOrders() {
+    let response;
     try {
 
         let prefix = 'Orders?$filter=CardCode eq \'30230986\' and U_PedidoRecurrente eq \'Y\'' +
             '&$select=CardCode, U_DescPedido, DocumentLines';
 
         let orders = SERVICE_LAYER_CLIENT.serviceLayerGet(prefix);
-        console.log("data: " + orders);
-        callback(null, orders);
+        response = orders;
 
     } catch (ex) {
         console.log(ex.message);
-        callback(ex.message);
     }
+
+    return response;
 }
 
 async function postRecurringOrder(postBody) {
@@ -37,8 +37,6 @@ async function postRecurringOrder(postBody) {
 }
 
 module.exports = {
-    GetAllRecurringOrders: function(callback) {
-        return (getAllRecurringOrders(callback))
-    },
+    getAllRecurringOrders,
     postRecurringOrder
 }
