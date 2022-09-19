@@ -1,6 +1,6 @@
 const SERVICE_LAYER_CLIENT = require('../service_layer/ServiceLayerClient');
 
-async function getAllRecurringOrders() {
+async function getAllRecurringOrders(callback) {
 
     try {
 
