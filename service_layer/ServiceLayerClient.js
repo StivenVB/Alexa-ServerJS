@@ -45,9 +45,8 @@ async function serviceLayerGet(prefix) {
         let requestResponse = await REQUEST_PROMISE(request);
         response = requestResponse.body;
 
-
         if (requestResponse.statusCode === 200) {
-            response = { status: 200, estado: true, mensaje: 'Exitoso', data: response };
+            response = { status: 200, estado: true, mensaje: 'Exitoso', data: response.value };
         } else {
             response = { status: 400, estado: false, mensaje: 'Petición fallida' };
         }
