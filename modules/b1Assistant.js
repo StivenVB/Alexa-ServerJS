@@ -538,12 +538,12 @@ function recurringOrderProcess(intent, session, callback) {
                    console.log("in1")
                } */
         else {
-            console.log("inprocess");
-            let response = RECURRING_ORDER.getAllRecurringOrders();
 
+            let response = RECURRING_ORDER.getAllRecurringOrders();
+            console.log("inprocess" + response.status);
             console.log("in");
             if (response.status !== 200) {
-                speechOutput = "Hubo un problema en la comunicación con Service Layer. Porfavor intentelo de nuevo: " + err;
+                speechOutput = "Hubo un problema en la comunicación con Service Layer. Porfavor intentelo de nuevo:";
             } else {
                 console.log("length : " + response.data.length)
                 if (response.data.length === 0) {
