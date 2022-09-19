@@ -538,7 +538,7 @@ function recurringOrderProcess(intent, session, callback) {
                     console.log("in1")
                 }*/
         else {
-            console.log("in");
+            console.log("inprocess");
             RECURRING_ORDER.GetAllRecurringOrders(function(err, response) {
                 console.log("in");
                 if (err) {
