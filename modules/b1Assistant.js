@@ -612,7 +612,6 @@ async function recurringOrderProcess(intent, session, callback) {
 }
 
 function bodyBuildPost(order) {
-    console.log("TEMPORAL: " + JSON.stringify(order));
     let lines = [];
 
     for (let i = 0; i < order.DocumentLines.length; i++) {
