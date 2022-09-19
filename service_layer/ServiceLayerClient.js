@@ -54,6 +54,8 @@ async function serviceLayerGet(prefix) {
     } catch (ex) {
         response = { status: 500, estado: false, mensaje: ex.message };
     }
+
+    console.log("response get: " + response)
     return response;
 }
 
@@ -95,7 +97,6 @@ async function serviceLayerPost(prefix, body) {
         console.log("2: " + ex.message);
         response = { status: 500, estado: false, mensaje: ex.message };
     }
-    console.log("response post: " + response)
     return response;
 }
 
