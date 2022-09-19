@@ -519,7 +519,9 @@ function recurringOrderProcess(intent, session, callback) {
         orderData = false;
 
     let recurringOrder = extractValue('Order', intent, session);
+    console.log("1: " + recurringOrder);
     var orderConfirmation = extractValue('Process', intent, session);
+    console.log("2: " + orderConfirmation0);
 
     sessionAttributes = handleSessionAttributes(sessionAttributes, 'Order', recurringOrder);
     sessionAttributes = handleSessionAttributes(sessionAttributes, 'Process', orderConfirmation);
