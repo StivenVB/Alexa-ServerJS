@@ -569,7 +569,7 @@ async function recurringOrderProcess(intent, session, callback) {
                         if (postRecurringOrder.status === 201) {
                             let orderLines = "";
                             speechOutput = "Pedido recurrente creado correctamente, su pedido es: " +
-                                recurringOrder + ", número de documento " +
+                                "pedido " + recurringOrder + ", número de documento " +
                                 postRecurringOrder.data.DocNum + "." + "\n";
 
                             speechOutput += "Adquiridos: " + "\n";
