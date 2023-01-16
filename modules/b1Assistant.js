@@ -9,16 +9,6 @@ const HELPERS = require("../helpers/Helpers");
 
 exports.handler = function(event, context) {
     try {
-        //console.log("event.session.application.applicationId=" + event.session.application.applicationId);
-
-        /**
-         * prevent someone else from configuring a skill that sends requests to this function.
-         * To be uncommented when SKill is ready
-        
-        if (event.session.application.applicationId !== "amzn1.echo-sdk-ams.app.c014e6d6-a7a4-44ee-8b2f-9b10c7969743") {
-             context.fail("Invalid Application ID");
-        }
-         */
 
         if (event.session.new) {
             onSessionStarted({
@@ -523,21 +513,13 @@ async function recurringOrderProcess(intent, session, callback) {
             index = 0;
 
         let recurringOrder = extractValue('Order', intent, session);
-        // let orderConfirmation = extractValue('Process', intent, session);
 
         sessionAttributes = handleSessionAttributes(sessionAttributes, 'Order', recurringOrder);
-        //sessionAttributes = handleSessionAttributes(sessionAttributes, 'Process', orderConfirmation);
         console.log("order: " + recurringOrder);
         if (recurringOrder === null) {
             speechOutput = "¿Cuál es el pedido recurrente que deseas realizar? Escógelo precedido de la palabra pedido";
             repromptText = "¿Cuál es el pedido recurrente que deseas realizar? Escógelo precedido de la palabra pedido";
-        }
-        /*else if (orderConfirmation === null) {
-                   speechOutput = "¿Deseas confirmar el pedido recurrente: " + recurringOrder + "?";
-                   repromptText = "¿Deseas confirmar el pedido recurrente: " + recurringOrder + "?";
-                   console.log("in1")
-               } */
-        else {
+        } else {
 
             let prefix = 'Orders?$filter=CardCode eq \'30230986\' and U_PedidoRecurrente eq \'Y\'' +
                 '&$select=CardCode, U_DescPedido, DocumentLines';
