@@ -1,8 +1,9 @@
 {
     "interactionModel": {
         "languageModel": {
-            "invocationName": "inicia el asistente virtual de consensus",
-            "intents": [{
+            "invocationName": "consensus colombia",
+            "intents": [
+                {
                     "name": "AMAZON.CancelIntent",
                     "samples": []
                 },
@@ -16,10 +17,12 @@
                 },
                 {
                     "name": "SayHello",
-                    "slots": [{
-                        "name": "FirstName",
-                        "type": "AMAZON.FirstName"
-                    }],
+                    "slots": [
+                        {
+                            "name": "FirstName",
+                            "type": "AMAZON.FirstName"
+                        }
+                    ],
                     "samples": [
                         "Say hi to {FirstName}",
                         "Salute our friend {FirstName}"
@@ -27,7 +30,8 @@
                 },
                 {
                     "name": "MakePurchase",
-                    "slots": [{
+                    "slots": [
+                        {
                             "name": "ItemName",
                             "type": "SAP_ITEMS"
                         },
@@ -65,10 +69,12 @@
                 },
                 {
                     "name": "MakeOrder",
-                    "slots": [{
-                        "name": "Order",
-                        "type": "AMAZON.Language"
-                    }],
+                    "slots": [
+                        {
+                            "name": "Order",
+                            "type": "AMAZON.Language"
+                        }
+                    ],
                     "samples": [
                         "pedidos recurrentes",
                         "pedido recurrente",
@@ -78,7 +84,8 @@
                 },
                 {
                     "name": "SalesInfo",
-                    "slots": [{
+                    "slots": [
+                        {
                             "name": "SalesQuarter",
                             "type": "SAP_QUARTERS"
                         },
@@ -107,10 +114,12 @@
                 },
                 {
                     "name": "SalesInfoYear",
-                    "slots": [{
-                        "name": "SalesYear",
-                        "type": "AMAZON.DATE"
-                    }],
+                    "slots": [
+                        {
+                            "name": "SalesYear",
+                            "type": "AMAZON.DATE"
+                        }
+                    ],
                     "samples": [
                         "ventas del año"
                     ]
@@ -128,9 +137,11 @@
                     "samples": []
                 }
             ],
-            "types": [{
+            "types": [
+                {
                     "name": "SAP_QUARTERS",
-                    "values": [{
+                    "values": [
+                        {
                             "id": "Q4",
                             "name": {
                                 "value": "cuarto",
@@ -174,7 +185,8 @@
                 },
                 {
                     "name": "SAP_ITEMS",
-                    "values": [{
+                    "values": [
+                        {
                             "id": "drive",
                             "name": {
                                 "value": "usb"
@@ -212,47 +224,55 @@
             ]
         },
         "dialog": {
-            "intents": [{
-                "name": "SalesInfo",
-                "confirmationRequired": false,
-                "prompts": {},
-                "slots": [{
-                        "name": "SalesQuarter",
-                        "type": "SAP_QUARTERS",
-                        "confirmationRequired": false,
-                        "elicitationRequired": false,
-                        "prompts": {},
-                        "validations": [{
-                            "type": "hasEntityResolutionMatch",
-                            "prompt": "Slot.Validation.261777776730.36457673745.187009367255"
-                        }]
-                    },
-                    {
-                        "name": "SalesYear",
-                        "type": "AMAZON.DATE",
-                        "confirmationRequired": false,
-                        "elicitationRequired": false,
-                        "prompts": {}
-                    }
-                ]
-            }],
+            "intents": [
+                {
+                    "name": "SalesInfo",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "SalesQuarter",
+                            "type": "SAP_QUARTERS",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {},
+                            "validations": [
+                                {
+                                    "type": "hasEntityResolutionMatch",
+                                    "prompt": "Slot.Validation.261777776730.36457673745.187009367255"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "SalesYear",
+                            "type": "AMAZON.DATE",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        }
+                    ]
+                }
+            ],
             "delegationStrategy": "ALWAYS"
         },
-        "prompts": [{
-            "id": "Slot.Validation.261777776730.36457673745.187009367255",
-            "variations": [{
-                    "type": "PlainText",
-                    "value": "No comprendo. "
-                },
-                {
-                    "type": "PlainText",
-                    "value": "I am sorry, could you repeat that?"
-                },
-                {
-                    "type": "PlainText",
-                    "value": "Perdon?"
-                }
-            ]
-        }]
+        "prompts": [
+            {
+                "id": "Slot.Validation.261777776730.36457673745.187009367255",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "No comprendo. "
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "I am sorry, could you repeat that?"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "Perdon?"
+                    }
+                ]
+            }
+        ]
     }
 }
