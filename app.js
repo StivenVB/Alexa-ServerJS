@@ -47,7 +47,7 @@ app.post('/', function(req, res) {
 
 app.get('/', function(req, res) {
 
-    return res.send(JSON.stringify({ status: "En linea" }));
+    return res.send(JSON.stringify({ status: "Online" }));
 
 });
 
